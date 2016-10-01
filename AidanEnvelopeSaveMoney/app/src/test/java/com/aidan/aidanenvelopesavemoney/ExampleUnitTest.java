@@ -1,4 +1,4 @@
-package com.example.aidan.aidanenvelopesavemoney;
+package com.aidan.aidanenvelopesavemoney;
 
 import org.junit.Test;
 

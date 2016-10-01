@@ -1,4 +1,4 @@
-package com.example.aidan.aidanenvelopesavemoney;
+package com.aidan.aidanenvelopesavemoney;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.aidan.aidanenvelopesavemoney", appContext.getPackageName());
+        assertEquals("com.aidan.aidanenvelopesavemoney", appContext.getPackageName());
     }
 }
