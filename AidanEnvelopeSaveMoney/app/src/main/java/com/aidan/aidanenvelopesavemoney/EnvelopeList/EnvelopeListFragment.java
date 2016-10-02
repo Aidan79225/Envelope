@@ -1,14 +1,19 @@
 package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 
+import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
 
 /**
@@ -53,9 +58,48 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         addEnvelopeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addEnvelopButtonClick();
+                showNewEnvelopDialog();
             }
         });
+        envelopesGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+        });
+
     }
+
+    public void showNewEnvelopDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_new_envelop, null);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        final EditText nameEditText = (EditText) dialogView.findViewById(R.id.nameEditText);
+        final EditText maxEditText = (EditText) dialogView.findViewById(R.id.maxEditText);
+        TextView okTextView = (TextView) dialogView.findViewById(R.id.okTextView);
+        TextView cancelTextView = (TextView) dialogView.findViewById(R.id.cancelTextView);
+        okTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = nameEditText.getText().toString();
+                String max = maxEditText.getText().toString();
+                presenter.addEnvelopButtonClick(name,max);
+                dialog.dismiss();
+            }
+        });
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        builder.setView(dialogView);
+        dialog.show();
+    }
+
+
+
 
 }

@@ -43,6 +43,11 @@ public class Envelope {
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
     }
+    public void addAccount(Account account) {
+        accountList.add(account);
+        cost += account.getCost();
+    }
+
 
 
 

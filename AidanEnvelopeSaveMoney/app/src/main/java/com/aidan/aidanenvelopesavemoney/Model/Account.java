@@ -5,15 +5,15 @@ package com.aidan.aidanenvelopesavemoney.Model;
  */
 
 public class Account {
-    private int cost = 0;
+    private float cost = 0;
     private String comment = "";
     private String envelopeName = "";
 
-    public int getCost() {
+    public float getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(float cost) {
         this.cost = cost;
     }
 

@@ -3,6 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
+    android:layout_gravity="center"
+    android:clickable="true"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +15,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/envelop"
+        android:src="@mipmap/envelop2"
         android:id="@+id/iconImageView"/>
     <TextView
         android:layout_width="wrap_content"

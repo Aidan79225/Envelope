@@ -33,14 +33,26 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
         view.setEnvelopeGridView();
         view.setViewClick();
     }
+
+    @Override
+    public void addEnvelopButtonClick(String name, String max) {
+        if(name.length() == 0 )name = "未設置名稱";
+        if(max.length() == 0 )max = "0.00";
+
+        Envelope envelope = new Envelope();
+        envelope.setName(name);
+        float fmax = Float.parseFloat(max);
+        envelope.setMax((int)fmax);
+        model.addEnvelope(envelope);
+
+    }
+
     @Override
     public void adapterLoadData(){
         adapter.setEnvelopeList(model.getEnvelopeList());
     }
 
-    @Override
-    public void addEnvelopButtonClick() {
-        Envelope envelope = new Envelope();
-        model.addEnvelope(envelope);
-    }
+
+
+
 }
