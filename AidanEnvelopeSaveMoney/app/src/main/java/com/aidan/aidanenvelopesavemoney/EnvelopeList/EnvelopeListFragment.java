@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
 
@@ -30,7 +31,18 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         super.onCreate(s);
     }
     @Override
+    public void onDestroy(){
+        try {
+            presenter.close();
+            EnvelopeDAO.getInstance().close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        EnvelopeDAO.init(getActivity().getApplicationContext());
         rootView = inflater.inflate(R.layout.fragment_envelope_list, container, false);
         if(presenter == null){
             presenter = new EnvelopeListPresenter(this);

@@ -1,5 +1,6 @@
 package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
+import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 
 import java.util.ArrayList;
@@ -22,5 +23,22 @@ public class EnvelopeListModel {
     }
     public List<Envelope> getEnvelopeList(){
         return envelopeList;
+    }
+    public void saveToDB(){
+        try {
+            for (Envelope envelope : envelopeList){
+                if(!EnvelopeDAO.getInstance().update(envelope))
+                     EnvelopeDAO.getInstance().insert(envelope);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void loadFromDB(){
+        try {
+            envelopeList = EnvelopeDAO.getInstance().getAll();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

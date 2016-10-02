@@ -29,6 +29,7 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
 
     @Override
     public void start() {
+        model.loadFromDB();
         view.findView();
         view.setEnvelopeGridView();
         view.setViewClick();
@@ -52,7 +53,10 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
         adapter.setEnvelopeList(model.getEnvelopeList());
     }
 
-
+    @Override
+    public void close() {
+        model.saveToDB();
+    }
 
 
 }
