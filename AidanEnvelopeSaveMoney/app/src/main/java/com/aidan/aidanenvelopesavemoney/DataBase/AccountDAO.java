@@ -34,9 +34,9 @@ public class AccountDAO {
             "CREATE TABLE " + TABLE_NAME + " (" +
                     KeyID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     NameColumn + " TEXT NOT NULL, " +
-                    CommentColumn + " INTEGER NOT NULL, " +
+                    CommentColumn + " TEXT NOT NULL, " +
                     ObjectIdColumn + " TEXT NOT NULL, "+
-                    CostColumn + " TEXT NOT NULL)";
+                    CostColumn + " INTEGER NOT NULL)";
     private SQLiteDatabase db;
     private static AccountDAO accountDAO;
     public static void init(Context context){
@@ -101,7 +101,26 @@ public class AccountDAO {
                 TABLE_NAME, null, null, null, null, null, null, null);
 
         while (cursor.moveToNext()) {
-            result.add(getRecord(cursor));
+            try {
+                result.add(getRecord(cursor));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        cursor.close();
+        return result;
+    }
+    public List<Account> getEnvelopsAccount(String envelopName) {
+        List<Account> result = new ArrayList<>();
+        Cursor cursor = db.query(
+                TABLE_NAME, null, NameColumn + "= \"" + envelopName + "\"", null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            try {
+                result.add(getRecord(cursor));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         cursor.close();

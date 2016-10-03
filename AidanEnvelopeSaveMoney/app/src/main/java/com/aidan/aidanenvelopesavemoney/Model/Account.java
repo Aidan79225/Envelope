@@ -7,7 +7,7 @@ import java.util.UUID;
  */
 
 public class Account {
-    private float cost = 0;
+    private int cost = 0;
     private String comment = "";
     private String envelopeName = "";
     private String id = "";
@@ -32,11 +32,11 @@ public class Account {
         this.id = id;
     }
 
-    public float getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 

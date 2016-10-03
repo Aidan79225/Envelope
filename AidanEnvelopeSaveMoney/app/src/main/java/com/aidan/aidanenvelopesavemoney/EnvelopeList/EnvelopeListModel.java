@@ -20,45 +20,47 @@ public class EnvelopeListModel {
     private List<Envelope> envelopeList = new ArrayList<>();
     private List<Account> accountList = new ArrayList<>();
     private List<EnvelopeListContract.newData> updateList = new ArrayList<>();
-    public void addUpdateList(EnvelopeListContract.newData newData){
+
+    public void addUpdateList(EnvelopeListContract.newData newData) {
         updateList.add(newData);
     }
-    public void addEnvelope(Envelope envelope){
+
+    public void addEnvelope(Envelope envelope) {
         envelopeList.add(envelope);
-        for(EnvelopeListContract.newData newData : updateList)
-                newData.update();
+        for (EnvelopeListContract.newData newData : updateList)
+            newData.update();
     }
-    public List<Envelope> getEnvelopeList(){
+
+    public List<Envelope> getEnvelopeList() {
         return envelopeList;
     }
-    public void saveToDB(){
+
+    public void saveToDB() {
         try {
-            for (Envelope envelope : envelopeList){
-                if(!EnvelopeDAO.getInstance().update(envelope))
-                     EnvelopeDAO.getInstance().insert(envelope);
-                for(Account account : envelope.getAccountList()){
-                    if(!AccountDAO.getInstance().update(account))
+            for (Envelope envelope : envelopeList) {
+                if (!EnvelopeDAO.getInstance().update(envelope))
+                    EnvelopeDAO.getInstance().insert(envelope);
+                for (Account account : envelope.getAccountList()) {
+                    if (!AccountDAO.getInstance().update(account))
                         AccountDAO.getInstance().insert(account);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void loadFromDB(){
+
+    public void loadFromDB() {
         try {
             envelopeList = EnvelopeDAO.getInstance().getAll();
             accountList = AccountDAO.getInstance().getAll();
-            for(Account account : accountList){
-                for(Envelope envelope : envelopeList){
-                    if(envelope.getName().equals(account.getEnvelopeName())) {
-                        envelope.addAccountFromDB(account);
-                        Singleton.log(account.getEnvelopeName());
-                        break;
-                    }
-                }
+
+            for (Envelope envelope : envelopeList) {
+                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getName()));
+                Singleton.log("success");
             }
-        }catch (Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

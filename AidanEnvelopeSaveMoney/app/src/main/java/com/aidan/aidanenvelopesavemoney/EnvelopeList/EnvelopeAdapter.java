@@ -94,7 +94,7 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
                 Account account = new Account();
                 String cost = costEditText.getText().toString();
                 String comment = commentEditText.getText().toString();
-                account.setCost(Float.valueOf(cost));
+                account.setCost(Integer.valueOf(cost));
                 account.setComment(comment);
                 account.setEnvelopeName(envelope.getName());
                 envelope.addAccount(account);
