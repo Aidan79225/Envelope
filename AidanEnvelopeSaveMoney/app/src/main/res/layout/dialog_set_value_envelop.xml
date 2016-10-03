@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="新增信封"
+        android:text="設定信封資料"
         android:textColor="@color/word"
         android:textSize="20sp"/>
 
@@ -62,8 +62,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:textColor="@color/word"
+            android:gravity="center"
             android:id="@+id/cancelTextView"
             android:text="取消"/>
 

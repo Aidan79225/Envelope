@@ -5,6 +5,7 @@ import android.util.Log;
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.DBHelper;
 import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
+import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
@@ -37,40 +38,11 @@ public class EnvelopeListModel {
     }
 
     public void saveToDB() {
-        try {
-            DBHelper.getDatabase().beginTransaction();
-            for (Envelope envelope : envelopeList) {
-                if (!EnvelopeDAO.getInstance().update(envelope))
-                    EnvelopeDAO.getInstance().insert(envelope);
-                for (Account account : envelope.getAccountList()) {
-                    if (!AccountDAO.getInstance().update(account))
-                        AccountDAO.getInstance().insert(account);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            DBHelper.getDatabase().endTransaction();
-        }
-
+        LoadDataSingleton.getInstance().saveToDB();
     }
 
     public void loadFromDB() {
-        try {
-            DBHelper.getDatabase().beginTransaction();
-            envelopeList = EnvelopeDAO.getInstance().getAll();
-            accountList = AccountDAO.getInstance().getAll();
-
-            for (Envelope envelope : envelopeList) {
-                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getName()));
-                Singleton.log("success");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            DBHelper.getDatabase().endTransaction();
-        }
+        envelopeList = LoadDataSingleton.getInstance().getEnvelopeList();
+        accountList = LoadDataSingleton.getInstance().getAccountList();
     }
 }

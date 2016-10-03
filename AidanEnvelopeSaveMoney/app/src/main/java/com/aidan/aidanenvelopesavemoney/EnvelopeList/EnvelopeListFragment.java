@@ -35,18 +35,12 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     }
     @Override
     public void onDestroy(){
-        try {
-            EnvelopeDAO.getInstance().close();
-            AccountDAO.getInstance().close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         super.onDestroy();
     }
     @Override
     public void onPause(){
         try {
-            presenter.close();
+            presenter.saveData();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -54,8 +48,6 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        EnvelopeDAO.init(getActivity().getApplicationContext());
-        AccountDAO.init(getActivity().getApplicationContext());
         rootView = inflater.inflate(R.layout.fragment_envelope_list, container, false);
         if(presenter == null){
             presenter = new EnvelopeListPresenter(this);

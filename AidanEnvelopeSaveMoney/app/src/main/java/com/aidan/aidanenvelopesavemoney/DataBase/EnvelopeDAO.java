@@ -95,6 +95,9 @@ public class EnvelopeDAO {
         // 刪除指定編號資料並回傳刪除是否成功
         return db.delete(TABLE_NAME, where , null) > 0;
     }
+    public void removeAll() {
+        db.delete(TABLE_NAME, null, null);
+    }
     public List<Envelope> getAll() {
         List<Envelope> result = new ArrayList<>();
         Cursor cursor = db.query(

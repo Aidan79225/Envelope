@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Envelope {
     private String id = "";
     private String name ="";
-    private float max = 0;
+    private int max = 0;
     private float cost = 0;
     private long index =0;
     private List<Account> accountList = new ArrayList<Account>();
@@ -50,7 +50,7 @@ public class Envelope {
         this.name = name;
     }
 
-    public float getMax() {
+    public int getMax() {
         return max;
     }
 
@@ -74,6 +74,9 @@ public class Envelope {
         accountList.add(account);
     }
 
+    protected boolean equals(Envelope envelope){
+        return envelope.getId().equals(this.id);
+    }
 
 
 

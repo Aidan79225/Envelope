@@ -54,7 +54,7 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
     }
 
     @Override
-    public void close() {
+    public void saveData() {
         model.saveToDB();
     }
 

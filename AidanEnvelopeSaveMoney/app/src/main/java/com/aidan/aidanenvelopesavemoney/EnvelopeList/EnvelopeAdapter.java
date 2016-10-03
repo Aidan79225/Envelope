@@ -2,6 +2,7 @@ package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +60,7 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         final Envelope envelope = envelopeList.get(position);
         viewHolder.setViewHolder(envelopeList.get(position));
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -70,12 +73,12 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
             @Override
             public boolean onLongClick(View view) {
                 showSetEnvelopDialog(envelope);
-                return false;
+                return true;
             }
         });
         return convertView;
     }
-    public void showSetEnvelopDialog(Envelope envelope){
+    public void showSetEnvelopDialog(final Envelope envelope){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.dialog_set_envelop, null);
@@ -86,6 +89,21 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         TextView deleteTextView = (TextView) dialogView.findViewById(R.id.deleteTextView);
         TextView cancelTextView = (TextView) dialogView.findViewById(R.id.cancelTextView);
         titleTextView.setText("選取了[ "+envelope.getName() + " ] 信封");
+        setValueTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSetEnvelopValueDialog(envelope);
+                dialog.dismiss();
+            }
+        });
+        deleteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                envelopeList.remove(envelope);
+                notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
         cancelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +112,38 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         });
         dialog.show();
     }
+    public void showSetEnvelopValueDialog(final Envelope envelope){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.dialog_set_value_envelop, null);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        final EditText nameEditText = (EditText) dialogView.findViewById(R.id.nameEditText);
+        final EditText maxEditText = (EditText) dialogView.findViewById(R.id.maxEditText);
+        TextView okTextView = (TextView) dialogView.findViewById(R.id.okTextView);
+        TextView cancelTextView = (TextView) dialogView.findViewById(R.id.cancelTextView);
+        nameEditText.setText(envelope.getName());
+        maxEditText.setText(envelope.getMax() + "");
+        okTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = nameEditText.getText().toString();
+                String max = maxEditText.getText().toString();
+                envelope.setName(name);
+                envelope.setMax(Integer.valueOf(max));
+                dialog.dismiss();
+            }
+        });
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        builder.setView(dialogView);
+        dialog.show();
+    }
+
     public void showNewAccountDialog(Envelope envelope,ViewGroup parent) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -153,7 +203,13 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
             nameTextView.setText(envelope.getName());
             surplusTextView.setText(String.valueOf(sup));
             float under = envelope.getMax() == 0 ? 1 : envelope.getMax();
-            percentTextView.setText(String.valueOf(sup *100.0 / under) + "%");
+            double percent = sup *100.0 / under;
+
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setMaximumFractionDigits(2);
+            percentTextView.setText(nf.format(percent) + "%");
+            if(percent < 20.0)percentTextView.setTextColor(context.getResources().getColor(R.color.red));
+            else percentTextView.setTextColor(context.getResources().getColor(R.color.word));
         }
 
 

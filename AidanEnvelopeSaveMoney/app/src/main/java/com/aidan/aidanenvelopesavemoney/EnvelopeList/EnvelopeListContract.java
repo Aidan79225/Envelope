@@ -17,7 +17,7 @@ public interface EnvelopeListContract {
         void start();
         void addEnvelopButtonClick(String name,String max);
         void adapterLoadData();
-        void close();
+        void saveData();
     }
     interface newData{
         void update();
