@@ -70,6 +70,9 @@ public class Envelope {
         cost += account.getCost();
 
     }
+    public void addAccountFromDB(Account account) {
+        accountList.add(account);
+    }
 
 
 

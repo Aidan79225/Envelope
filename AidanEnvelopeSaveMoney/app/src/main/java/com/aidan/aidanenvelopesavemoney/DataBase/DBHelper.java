@@ -10,8 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
     private final static int DBVersion = 1; //<-- 版本
-    private final static String DBName = "SampleList.db";  //<-- db name
-    private final static String TableName = "MySample"; //<-- table name
+    private final static String DBName = "SaveMoney.db";  //<-- db name
     private static SQLiteDatabase database;
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -27,11 +26,13 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(EnvelopeDAO.CREATE_TABLE);
+        db.execSQL(AccountDAO.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + EnvelopeDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + AccountDAO.TABLE_NAME);
         onCreate(db);
     }
 }

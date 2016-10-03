@@ -11,8 +11,17 @@ public class Account {
     private String comment = "";
     private String envelopeName = "";
     private String id = "";
+    private long index =0;
     public Account(){
         id = UUID.randomUUID().toString().substring(0,10);
+    }
+
+    public long getIndex() {
+        return index;
+    }
+
+    public void setIndex(long index) {
+        this.index = index;
     }
 
     public String getId() {

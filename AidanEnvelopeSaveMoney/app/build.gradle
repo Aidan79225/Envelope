@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "24.0.0"
     defaultConfig {
         applicationId "com.aidan.aidanenvelopesavemoney"
         minSdkVersion 15
@@ -12,9 +12,17 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        def IS_SANDBOX = "IS_SANDBOX"
+        def Boolean = "Boolean"
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField Boolean, IS_SANDBOX, "false"
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField Boolean, IS_SANDBOX, "true"
         }
     }
 }
