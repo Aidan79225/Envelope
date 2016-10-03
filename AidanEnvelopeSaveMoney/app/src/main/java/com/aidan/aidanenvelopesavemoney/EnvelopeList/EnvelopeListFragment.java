@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
@@ -34,7 +36,6 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     @Override
     public void onDestroy(){
         try {
-            presenter.close();
             EnvelopeDAO.getInstance().close();
             AccountDAO.getInstance().close();
         }catch (Exception e){
@@ -85,18 +86,11 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
                 showNewEnvelopDialog();
             }
         });
-        envelopesGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return false;
-            }
-        });
-
     }
 
     public void showNewEnvelopDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         View dialogView = inflater.inflate(R.layout.dialog_new_envelop, null);
         builder.setView(dialogView);
         final AlertDialog dialog = builder.create();

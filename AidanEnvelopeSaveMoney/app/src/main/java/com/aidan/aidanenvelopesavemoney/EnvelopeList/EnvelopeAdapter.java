@@ -66,10 +66,34 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
                 showNewAccountDialog(envelope,parent);
             }
         });
-
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showSetEnvelopDialog(envelope);
+                return false;
+            }
+        });
         return convertView;
     }
-
+    public void showSetEnvelopDialog(Envelope envelope){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.dialog_set_envelop, null);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        TextView titleTextView = (TextView) dialogView.findViewById(R.id.titleTextView);
+        TextView setValueTextView = (TextView) dialogView.findViewById(R.id.setValueTextView);
+        TextView deleteTextView = (TextView) dialogView.findViewById(R.id.deleteTextView);
+        TextView cancelTextView = (TextView) dialogView.findViewById(R.id.cancelTextView);
+        titleTextView.setText("選取了[ "+envelope.getName() + " ] 信封");
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
     public void showNewAccountDialog(Envelope envelope,ViewGroup parent) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);

@@ -46,6 +46,7 @@ public class EnvelopeDAO {
         if (envelopeDAO == null)return null;
         return envelopeDAO;
     }
+
     private EnvelopeDAO(Context context) {
         db = DBHelper.getDatabase(context);
     }

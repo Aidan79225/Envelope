@@ -3,6 +3,7 @@ package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 import android.util.Log;
 
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
+import com.aidan.aidanenvelopesavemoney.DataBase.DBHelper;
 import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
@@ -37,6 +38,7 @@ public class EnvelopeListModel {
 
     public void saveToDB() {
         try {
+            DBHelper.getDatabase().beginTransaction();
             for (Envelope envelope : envelopeList) {
                 if (!EnvelopeDAO.getInstance().update(envelope))
                     EnvelopeDAO.getInstance().insert(envelope);
@@ -47,11 +49,15 @@ public class EnvelopeListModel {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            DBHelper.getDatabase().endTransaction();
         }
+
     }
 
     public void loadFromDB() {
         try {
+            DBHelper.getDatabase().beginTransaction();
             envelopeList = EnvelopeDAO.getInstance().getAll();
             accountList = AccountDAO.getInstance().getAll();
 
@@ -62,6 +68,9 @@ public class EnvelopeListModel {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            DBHelper.getDatabase().endTransaction();
         }
     }
 }

@@ -23,6 +23,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return database;
     }
+    public static SQLiteDatabase getDatabase() {
+        return database;
+    }
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(EnvelopeDAO.CREATE_TABLE);
