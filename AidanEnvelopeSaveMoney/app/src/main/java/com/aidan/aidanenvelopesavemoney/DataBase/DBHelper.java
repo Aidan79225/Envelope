@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-    private final static int DBVersion = 1; //<-- 版本
+    private final static int DBVersion = 3; //<-- 版本
     private final static String DBName = "SaveMoney.db";  //<-- db name
     private static SQLiteDatabase database;
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

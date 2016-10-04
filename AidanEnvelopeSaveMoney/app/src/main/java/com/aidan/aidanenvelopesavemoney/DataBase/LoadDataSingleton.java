@@ -28,6 +28,9 @@ public class LoadDataSingleton {
     public List<Account> getAccountList() {
         return accountList;
     }
+    public void addAccount(Account account){
+        accountList.add(account);
+    }
 
     public void saveToDB() {
         try {
@@ -49,7 +52,7 @@ public class LoadDataSingleton {
             envelopeList = EnvelopeDAO.getInstance().getAll();
             accountList = AccountDAO.getInstance().getAll();
             for (Envelope envelope : envelopeList) {
-                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getName()));
+                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getId()));
                 Singleton.log("success");
             }
 

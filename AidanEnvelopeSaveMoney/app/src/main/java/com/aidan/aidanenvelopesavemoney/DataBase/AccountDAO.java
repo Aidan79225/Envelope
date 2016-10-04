@@ -30,12 +30,16 @@ public class AccountDAO {
     public static final String CommentColumn = "comment";
     public static final String CostColumn = "cost";
     public static final String ObjectIdColumn = "objectId";
+    public static final String DateColumn = "date";
+    public static final String EnvelopIdColumn = "envelopId";
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     KeyID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     NameColumn + " TEXT NOT NULL, " +
                     CommentColumn + " TEXT NOT NULL, " +
                     ObjectIdColumn + " TEXT NOT NULL, "+
+                    DateColumn + " INTEGER NOT NULL, "+
+                    EnvelopIdColumn + " TEXT NOT NULL, "+
                     CostColumn + " INTEGER NOT NULL)";
     private SQLiteDatabase db;
     private static AccountDAO accountDAO;
@@ -62,6 +66,9 @@ public class AccountDAO {
         cv.put(CommentColumn, item.getComment());
         cv.put(CostColumn, item.getCost());
         cv.put(ObjectIdColumn, item.getId());
+        cv.put(DateColumn, item.getTime());
+        cv.put(EnvelopIdColumn, item.getEnvelopId());
+
         long id = db.insert(TABLE_NAME, null, cv);
 
         // 設定編號
@@ -80,7 +87,8 @@ public class AccountDAO {
         cv.put(CommentColumn, item.getComment());
         cv.put(CostColumn, item.getCost());
         cv.put(ObjectIdColumn, item.getId());
-
+        cv.put(DateColumn, item.getTime());
+        cv.put(EnvelopIdColumn, item.getEnvelopId());
         // 設定修改資料的條件為編號
         // 格式為「欄位名稱＝資料」
         String where = KeyID + "=" + item.getIndex();
@@ -108,13 +116,17 @@ public class AccountDAO {
             }
         }
 
+
         cursor.close();
+        for(Account account:result){
+            Singleton.log("getAll :" + account.getIndex() );
+        }
         return result;
     }
     public List<Account> getEnvelopsAccount(String envelopName) {
         List<Account> result = new ArrayList<>();
         Cursor cursor = db.query(
-                TABLE_NAME, null, NameColumn + "= \"" + envelopName + "\"", null, null, null, null, null);
+                TABLE_NAME, null, EnvelopIdColumn + "= \"" + envelopName + "\"", null, null, null, null, null);
         while (cursor.moveToNext()) {
             try {
                 result.add(getRecord(cursor));
@@ -122,7 +134,9 @@ public class AccountDAO {
                 e.printStackTrace();
             }
         }
-
+        for(Account account:result){
+            Singleton.log("getEnvelopsAccount :" + account.getIndex() );
+        }
         cursor.close();
         return result;
     }
@@ -157,7 +171,10 @@ public class AccountDAO {
         result.setEnvelopeName(cursor.getString(1));
         result.setComment(cursor.getString(2));
         result.setId(cursor.getString(3));
-        result.setCost(cursor.getInt(4));
+        result.setTime(cursor.getLong(4));
+        result.setEnvelopId(cursor.getString(5));
+        result.setCost(cursor.getInt(6));
+
         // 回傳結果
         return result;
     }

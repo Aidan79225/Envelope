@@ -1,5 +1,6 @@
 package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -10,7 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.aidan.aidanenvelopesavemoney.AccountList.AccountListFragment;
+import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
@@ -25,9 +29,9 @@ import java.util.List;
 
 public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract.newData{
     private List<Envelope> envelopeList = new ArrayList<>();
-    private Context context;
+    private Activity context;
     private LayoutInflater inflater;
-    public  EnvelopeAdapter(Context context){
+    public  EnvelopeAdapter(Activity context){
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
@@ -88,11 +92,20 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         TextView setValueTextView = (TextView) dialogView.findViewById(R.id.setValueTextView);
         TextView deleteTextView = (TextView) dialogView.findViewById(R.id.deleteTextView);
         TextView cancelTextView = (TextView) dialogView.findViewById(R.id.cancelTextView);
+        TextView checkAccountsTextView = (TextView) dialogView.findViewById(R.id.checkAccountsTextView);
         titleTextView.setText("選取了[ "+envelope.getName() + " ] 信封");
+
         setValueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSetEnvelopValueDialog(envelope);
+                dialog.dismiss();
+            }
+        });
+        checkAccountsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCheckAccountList(envelope);
                 dialog.dismiss();
             }
         });
@@ -143,6 +156,11 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         builder.setView(dialogView);
         dialog.show();
     }
+    public void showCheckAccountList(Envelope envelope) {
+        AccountListFragment fragment = AccountListFragment.newInstance(envelope.getAccountList());
+        fragment.setTitle(envelope.getName());
+        fragment.show(context.getFragmentManager(),AccountListFragment.class.getName());
+    }
 
     public void showNewAccountDialog(Envelope envelope,ViewGroup parent) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -165,15 +183,7 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         okTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Account account = new Account();
-                String cost = costEditText.getText().toString();
-                String comment = commentEditText.getText().toString();
-                account.setCost(Integer.valueOf(cost));
-                account.setComment(comment);
-                account.setEnvelopeName(envelope.getName());
-                envelope.addAccount(account);
-                notifyDataSetChanged();
-                dialog.dismiss();
+                addAccount(envelope,costEditText,commentEditText,dialog);
             }
         });
         cancelTextView.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +193,23 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
             }
         });
     }
-
+    public void addAccount(Envelope envelope, EditText costEditText, EditText commentEditText, AlertDialog dialog){
+        String cost = costEditText.getText().toString();
+        String comment = commentEditText.getText().toString();
+        if(cost.length() == 0 ){
+            Toast.makeText(context,"花費不可為空",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Account account = new Account();
+        account.setCost(Integer.valueOf(cost));
+        account.setComment(comment);
+        account.setEnvelopeName(envelope.getName());
+        account.setEnvelopId(envelope.getId());
+        envelope.addAccount(account);
+        LoadDataSingleton.getInstance().addAccount(account);
+        notifyDataSetChanged();
+        dialog.dismiss();
+    }
     public void setEnvelopeList(List<Envelope> envelopeList){
         this.envelopeList = envelopeList;
     }

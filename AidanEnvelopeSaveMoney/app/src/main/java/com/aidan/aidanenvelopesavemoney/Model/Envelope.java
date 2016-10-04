@@ -1,5 +1,7 @@
 package com.aidan.aidanenvelopesavemoney.Model;
 
+import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +50,10 @@ public class Envelope {
 
     public void setName(String name) {
         this.name = name;
+        for(Account account : accountList){
+            account.setEnvelopeName(name);
+            Singleton.log("change");
+        }
     }
 
     public int getMax() {
