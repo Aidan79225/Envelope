@@ -1,12 +1,18 @@
 package com.aidan.aidanenvelopesavemoney.AccountList;
 
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.aidan.aidanenvelopesavemoney.AccountDetail.AccountDetailFragment;
+import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
@@ -57,6 +63,20 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         presenter.setAdapter(adapter);
         presenter.adapterLoadData();
         accountListView.setAdapter(adapter);
+        accountListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showDetailFragment();
+            }
+        });
+    }
+    public void showDetailFragment(){
+        AccountDetailFragment fragment = AccountDetailFragment.newInstance();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.fragmentContainerRelativeLayout, fragment, AccountDetailFragment.class.getName());
+        transaction.hide(this);
+        transaction.commit();
     }
 
 
