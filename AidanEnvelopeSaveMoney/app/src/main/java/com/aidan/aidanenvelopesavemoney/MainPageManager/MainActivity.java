@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
     }
     public void setTabBar(){
         tabBar = (TabBar)findViewById(R.id.tabBar);
-        tabBar.addTabs(new String[]{"信封袋","帳務"},new int[]{R.mipmap.envelop2 ,R.mipmap.envelop});
+        tabBar.addTabs(new String[]{getResources().getString(R.string.envelop),getResources().getString(R.string.account)},new int[]{R.mipmap.envelop2 ,R.mipmap.envelop});
         tabBar.setTabBarListener(this);
     }
     public void findView(){

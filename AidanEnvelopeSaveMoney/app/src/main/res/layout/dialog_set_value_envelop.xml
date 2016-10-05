@@ -8,39 +8,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="設定信封資料"
+        android:text="@string/set_envelop"
         android:textColor="@color/word"
         android:textSize="20sp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/word"
-            android:text="信封名稱："/>
+            android:text="@string/envelop_name"/>
         <EditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textColor="@color/word"
             android:id="@+id/nameEditText"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/word"
-            android:text="信封上限："/>
+            android:text="@string/envelop_max"/>
         <EditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textColor="@color/word"
             android:inputType="number"
             android:id="@+id/maxEditText"/>
@@ -56,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/word"
             android:gravity="center"
-            android:text="確定"
+            android:text="@string/ok"
             android:id="@+id/okTextView"/>
         <TextView
             android:layout_width="0dp"
@@ -65,7 +69,7 @@
             android:textColor="@color/word"
             android:gravity="center"
             android:id="@+id/cancelTextView"
-            android:text="取消"/>
+            android:text="@string/cancel"/>
 
     </LinearLayout>
 </LinearLayout>

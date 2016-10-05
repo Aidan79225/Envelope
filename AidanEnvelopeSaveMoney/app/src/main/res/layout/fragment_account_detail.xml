@@ -7,11 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="信封袋名稱 : "
+            android:text="@string/envelop_name"
             android:textColor="@color/word"
             android:textSize="16sp"/>
         <TextView
@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/word"
             android:textSize="16sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             />
 
     </LinearLayout>
@@ -27,11 +29,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="花費名稱 : "
+            android:text="@string/comment_name"
             android:textColor="@color/word"
             android:textSize="16sp"/>
         <EditText
@@ -39,6 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/word"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textSize="16sp"
             android:inputType=""/>
 
@@ -47,17 +51,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="花費金額 : "
+            android:text="@string/cost_number"
             android:textColor="@color/word"
             android:textSize="16sp"/>
         <EditText
             android:id="@+id/costEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textColor="@color/word"
             android:textSize="16sp"
             />
@@ -67,11 +73,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="日期 : "
+            android:text="@string/date"
             android:textColor="@color/word"
             android:textSize="16sp"/>
         <TextView
@@ -79,6 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/word"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textSize="16sp"
             android:inputType=""/>
 
@@ -88,18 +96,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="照片 : "
+            android:text="@string/photo"
             android:textColor="@color/word"
             android:textSize="16sp"/>
         <ImageView
             android:id="@+id/photoImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             />
 
     </LinearLayout>
@@ -114,7 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="編輯"
+        android:text="@string/edit"
         android:textColor="@color/word"
         android:textSize="16sp"/>
 

@@ -9,73 +9,81 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="新增帳務"
+        android:text="@string/new_account"
         android:textColor="@color/word"
         android:textSize="20sp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="信封名稱："
+            android:text="@string/envelop_name"
             android:textColor="@color/word"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:id="@+id/nameTextView"
             android:textColor="@color/word"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="信封上限："
+            android:text="@string/envelop_max"
             android:textColor="@color/word"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:id="@+id/maxTextView"
             android:textColor="@color/word"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="花費："
+            android:text="@string/cost"
             android:textColor="@color/word"/>
         <EditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:id="@+id/costEditText"
             android:textColor="@color/word"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="備註："
+            android:text="@string/comment_name"
             android:textColor="@color/word"/>
         <EditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:id="@+id/commentEditText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textColor="@color/word"/>
     </LinearLayout>
     <LinearLayout
@@ -88,7 +96,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="確定"
+            android:text="@string/ok"
             android:id="@+id/okTextView"
             android:textColor="@color/word"/>
         <TextView
@@ -97,7 +105,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/cancelTextView"
-            android:text="取消"
+            android:text="@string/cancel"
             android:textColor="@color/word"/>
 
     </LinearLayout>

@@ -58,10 +58,10 @@ public class AccountListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         if(i == 0 ){
-            viewHolder.nameTextView.setText("信封袋名稱");
-            viewHolder.commentTextView.setText("花費項目");
-            viewHolder.costTextView.setText("花費金額");
-            viewHolder.timeTextView.setText("日期");
+            viewHolder.nameTextView.setText(R.string.envelop_name);
+            viewHolder.commentTextView.setText(R.string.comment_name);
+            viewHolder.costTextView.setText(R.string.cost_number);
+            viewHolder.timeTextView.setText(R.string.date);
         }else{
             Account account = getItem(i);
             viewHolder.nameTextView.setText(account.getEnvelopeName());

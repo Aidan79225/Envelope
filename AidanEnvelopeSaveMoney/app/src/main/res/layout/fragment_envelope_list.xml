@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:text="新增信封袋"
+        android:text="@string/new_envelop"
         android:textColor="@color/word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

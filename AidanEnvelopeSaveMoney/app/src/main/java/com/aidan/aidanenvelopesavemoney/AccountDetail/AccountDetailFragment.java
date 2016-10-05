@@ -1,16 +1,19 @@
 package com.aidan.aidanenvelopesavemoney.AccountDetail;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.R;
@@ -75,7 +78,7 @@ public class AccountDetailFragment extends DialogFragment implements AccountDeta
     @Override
     public void prepareChange() {
         commentEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-        changeButton.setText("儲存");
+        changeButton.setText(R.string.save);
         costEditText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
     }
 
@@ -83,10 +86,24 @@ public class AccountDetailFragment extends DialogFragment implements AccountDeta
     public void saveChange() {
         String cost = costEditText.getText().toString();
         String comment = commentEditText.getText().toString();
+        if(cost.length() == 0 ){
+            Toast.makeText(getActivity(),R.string.cost_cant_be_void,Toast.LENGTH_SHORT).show();
+            return;
+        }
+        hideKey(commentEditText);
         commentEditText.setInputType(InputType.TYPE_NULL);
         costEditText.setInputType(InputType.TYPE_NULL);
         presenter.setAccount(cost,comment);
-        changeButton.setText("編輯");
+        changeButton.setText(R.string.edit);
+    }
+    public void hideKey(EditText editText){
+        try {
+            InputMethodManager input = (InputMethodManager) getActivity()
+                    .getSystemService(Activity.INPUT_METHOD_SERVICE);
+            input.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="設定數值"
+        android:text="@string/set_value"
         android:textColor="@color/word"
         android:textSize="16sp"/>
     <TextView
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="檢視帳務"
+        android:text="@string/check_accounts"
         android:textColor="@color/word"
         android:textSize="16sp"/>
 
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="刪除"
+        android:text="@string/delete"
         android:textColor="@color/word"
         android:textSize="16sp"/>
 
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="取消"
+        android:text="@string/cancel"
         android:textColor="@color/word"
         android:textSize="16sp"/>
 
