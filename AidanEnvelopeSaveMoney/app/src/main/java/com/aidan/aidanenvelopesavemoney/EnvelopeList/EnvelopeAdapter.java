@@ -207,7 +207,7 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         String cost = costEditText.getText().toString();
         String comment = commentEditText.getText().toString();
         if(cost.length() == 0 ){
-            Toast.makeText(context,"花費不可為空",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,R.string.cost_cant_be_void,Toast.LENGTH_SHORT).show();
             return;
         }
         Account account = new Account();
