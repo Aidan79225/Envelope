@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         Fragment fragment = new EnvelopeListFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        int backStackCount = getFragmentManager().getBackStackEntryCount();
+        for(int i = 0; i < backStackCount; i++) {
+            fragmentManager.popBackStack();
+        }
         transaction.replace(R.id.fragmentContainerRelativeLayout, fragment, EnvelopeListFragment.class.getName());
         transaction.commit();
     }
@@ -73,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         Fragment fragment = AccountListFragment.newInstance(LoadDataSingleton.getInstance().getAccountList());
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        int backStackCount = getFragmentManager().getBackStackEntryCount();
+        for(int i = 0; i < backStackCount; i++) {
+            fragmentManager.popBackStack();
+        }
         transaction.replace(R.id.fragmentContainerRelativeLayout, fragment, AccountListFragment.class.getName());
         transaction.commit();
     }
@@ -91,4 +99,5 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
                 break;
         }
     }
+
 }

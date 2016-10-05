@@ -68,9 +68,9 @@ public class TabBar extends RelativeLayout implements TabView.TabViewListener {
     @Override
     public void didClickOnTabView(int position) {
 
-        if (currentTab == position) {
-            return;
-        }
+//        if (currentTab == position) {
+//            return;
+//        }
 
         //detect no use tab
         if (noUseTabs.contains(Integer.valueOf(position))) {

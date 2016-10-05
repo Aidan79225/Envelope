@@ -64,7 +64,7 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
 
     @Override
     public void setEnvelopeGridView() {
-        EnvelopeAdapter adapter = new EnvelopeAdapter(getActivity());
+        EnvelopeAdapter adapter = new EnvelopeAdapter(getActivity(),this);
         presenter.setAdapter(adapter);
         presenter.adapterLoadData();
         envelopesGridView.setAdapter(adapter);

@@ -5,6 +5,7 @@ import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class LoadDataSingleton {
     private List<Envelope> envelopeList = new ArrayList<>();
+    private HashMap<String,Envelope> envelopeHashMap = new HashMap<>();
     private List<Account> accountList = new ArrayList<>();
     private static  LoadDataSingleton loadDataSingleton;
     public static LoadDataSingleton getInstance(){
@@ -47,12 +49,21 @@ public class LoadDataSingleton {
             e.printStackTrace();
         }
     }
+    public Envelope getEnvelope(String id){
+        return envelopeHashMap.get(id);
+    }
     public void loadFromDB() {
         try {
             envelopeList = EnvelopeDAO.getInstance().getAll();
             accountList = AccountDAO.getInstance().getAll();
             for (Envelope envelope : envelopeList) {
-                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getId()));
+//                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getId()));
+                envelopeHashMap.put(envelope.getId(),envelope);
+                for(Account account : accountList){
+                    if(account.getEnvelopId().equals(envelope.getId()))
+                        envelope.addAccountFromDB(account);
+                }
+                envelope.refresh();
                 Singleton.log("success");
             }
 

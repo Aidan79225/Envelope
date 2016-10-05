@@ -10,6 +10,7 @@ public interface AccountListContract {
     interface view{
         void findView();
         void setAccountListView();
+
     }
     interface presenter{
         void start();

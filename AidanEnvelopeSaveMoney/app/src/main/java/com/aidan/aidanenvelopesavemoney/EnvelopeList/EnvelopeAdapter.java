@@ -2,6 +2,9 @@ package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -31,7 +34,9 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
     private List<Envelope> envelopeList = new ArrayList<>();
     private Activity context;
     private LayoutInflater inflater;
-    public  EnvelopeAdapter(Activity context){
+    private Fragment fragment;
+    public  EnvelopeAdapter(Activity context,Fragment fragment){
+        this.fragment = fragment;
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
@@ -159,7 +164,12 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
     public void showCheckAccountList(Envelope envelope) {
         AccountListFragment fragment = AccountListFragment.newInstance(envelope.getAccountList());
         fragment.setTitle(envelope.getName());
-        fragment.show(context.getFragmentManager(),AccountListFragment.class.getName());
+        FragmentManager fragmentManager = this.fragment.getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.fragmentContainerRelativeLayout, fragment, AccountListFragment.class.getName());
+        transaction.hide(this.fragment);
+        transaction.addToBackStack(this.fragment.getClass().getName());
+        transaction.commit();
     }
 
     public void showNewAccountDialog(Envelope envelope,ViewGroup parent) {

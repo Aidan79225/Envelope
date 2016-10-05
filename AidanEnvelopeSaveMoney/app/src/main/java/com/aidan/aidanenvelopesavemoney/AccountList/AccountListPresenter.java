@@ -28,6 +28,7 @@ public class AccountListPresenter implements AccountListContract.presenter {
     public void start() {
         view.findView();
         view.setAccountListView();
+
     }
 
     @Override

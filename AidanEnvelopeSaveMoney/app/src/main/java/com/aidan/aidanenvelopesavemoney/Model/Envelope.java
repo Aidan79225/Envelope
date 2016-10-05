@@ -84,7 +84,12 @@ public class Envelope {
         return envelope.getId().equals(this.id);
     }
 
-
+    public void refresh(){
+        cost = 0;
+        for(Account account : accountList){
+            cost += account.getCost();
+        }
+    }
 
 
 }
