@@ -184,12 +184,14 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
     public void setNewAccountDialog(View view, final Envelope envelope, final AlertDialog dialog){
         TextView nameTextView = (TextView)view.findViewById(R.id.nameTextView);
         TextView maxTextView = (TextView)view.findViewById(R.id.maxTextView);
+        TextView restTextView = (TextView)view.findViewById(R.id.restTextView);
         final EditText costEditText = (EditText)view.findViewById(R.id.costEditText);
         final EditText commentEditText = (EditText)view.findViewById(R.id.commentEditText);
         TextView okTextView = (TextView)view.findViewById(R.id.okTextView);
         TextView cancelTextView = (TextView)view.findViewById(R.id.cancelTextView);
         nameTextView.setText(envelope.getName());
-        maxTextView.setText((envelope.getMax() - envelope.getCost())+"");
+        maxTextView.setText(envelope.getMax() +"");
+        restTextView.setText((int)(envelope.getMax()-envelope.getCost()) +"");
         okTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,7 +237,7 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
         public TextView percentTextView;
         public ImageView iconImageView;
         public void setViewHolder(Envelope envelope){
-            float sup = envelope.getMax()-envelope.getCost();
+            int sup = (int)(envelope.getMax()-envelope.getCost());
             nameTextView.setText(envelope.getName());
             surplusTextView.setText(String.valueOf(sup));
             float under = envelope.getMax() == 0 ? 1 : envelope.getMax();

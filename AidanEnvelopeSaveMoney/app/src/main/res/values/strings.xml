@@ -4,7 +4,7 @@
     <string name="cost_cant_be_void">花費不能為空</string>
     <string name="save">儲存</string>
     <string name="edit">編輯</string>
-    <string name="envelop_name">信封袋名稱 </string>
+    <string name="envelop_name">信封名稱 </string>
     <string name="comment_name">花費名稱 </string>
     <string name="cost_number">花費金額 </string>
     <string name="date">日期 </string>
@@ -15,9 +15,10 @@
 
     <!--EnvelopeListFragment-->
 
-    <string name="new_envelop">新增信封袋</string>
+    <string name="new_envelop">新增信封</string>
     <string name="new_account">新增帳務</string>
     <string name="envelop_max">信封上限</string>
+    <string name="envelop_rest">信封剩餘</string>
     <string name="cost">花費</string>
     <string name="ok">確定</string>
     <string name="cancel">取消</string>

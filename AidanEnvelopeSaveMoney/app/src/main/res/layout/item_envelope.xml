@@ -14,9 +14,9 @@
         android:textColor="@color/word"
         android:id="@+id/nameTextView" />
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/envelop2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/envelop3"
         android:id="@+id/iconImageView"/>
     <TextView
         android:layout_width="wrap_content"
