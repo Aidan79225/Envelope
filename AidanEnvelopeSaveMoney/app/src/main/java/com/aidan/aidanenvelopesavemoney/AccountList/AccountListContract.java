@@ -16,6 +16,7 @@ public interface AccountListContract {
         void start();
         void setAdapter(AccountListAdapter adapter);
         void adapterLoadData();
+        void deleteAccount(int position);
     }
 
 }

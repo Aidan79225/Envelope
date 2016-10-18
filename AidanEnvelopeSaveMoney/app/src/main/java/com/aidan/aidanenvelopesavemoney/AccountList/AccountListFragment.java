@@ -1,8 +1,10 @@
 package com.aidan.aidanenvelopesavemoney.AccountList;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,10 +77,11 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         accountListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position > 0)
-                showDetailFragment(adapter.getItem(position));
+                if (position > 0)
+                    showDetailFragment(adapter.getItem(position));
             }
         });
+        accountListView.setOnItemLongClickListener(longClickListener);
     }
     public void showDetailFragment(Account account){
         AccountDetailFragment fragment = AccountDetailFragment.newInstance(account);
@@ -89,6 +92,30 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         transaction.addToBackStack(this.getClass().getName());
         transaction.commit();
     }
+    AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            showDialogForDelete(position);
+            return true;
+        }
+    };
+    public void showDialogForDelete(final int position){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.delete);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.deleteAccount(position);
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
 
 
 

@@ -40,4 +40,10 @@ public class AccountListPresenter implements AccountListContract.presenter {
     public void adapterLoadData() {
         adapter.setAccountList(model.getAccountList());
     }
+
+    @Override
+    public void deleteAccount(int position) {
+        model.deleteAccount(position);
+        adapter.notifyDataSetChanged();
+    }
 }

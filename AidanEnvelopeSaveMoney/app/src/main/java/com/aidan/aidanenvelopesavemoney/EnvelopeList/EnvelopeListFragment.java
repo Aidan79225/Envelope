@@ -28,6 +28,7 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     private View rootView;
     private GridView envelopesGridView;
     private Button addEnvelopeButton;
+    private TextView monthCostTextView;
     public EnvelopeListContract.presenter presenter;
     @Override
     public void onCreate(Bundle s){
@@ -60,6 +61,7 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     public void findView() {
         envelopesGridView = (GridView) rootView.findViewById(R.id.envelopesGridView);
         addEnvelopeButton =(Button)rootView.findViewById(R.id.addEnvelopeButton);
+        monthCostTextView = (TextView)rootView.findViewById(R.id.monthCostTextView);
     }
 
     @Override
