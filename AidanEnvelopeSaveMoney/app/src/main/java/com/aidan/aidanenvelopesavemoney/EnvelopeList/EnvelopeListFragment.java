@@ -28,7 +28,7 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     private View rootView;
     private GridView envelopesGridView;
     private Button addEnvelopeButton;
-    private TextView monthCostTextView;
+    private TextView monthCostTextView,monthBudgetTextView,monthSurplusTextView;
     public EnvelopeListContract.presenter presenter;
     @Override
     public void onCreate(Bundle s){
@@ -40,11 +40,6 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     }
     @Override
     public void onPause(){
-        try {
-            presenter.saveData();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         super.onPause();
     }
     @Override
@@ -62,6 +57,8 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         envelopesGridView = (GridView) rootView.findViewById(R.id.envelopesGridView);
         addEnvelopeButton =(Button)rootView.findViewById(R.id.addEnvelopeButton);
         monthCostTextView = (TextView)rootView.findViewById(R.id.monthCostTextView);
+        monthBudgetTextView = (TextView)rootView.findViewById(R.id.monthBudgetTextView);
+        monthSurplusTextView = (TextView)rootView.findViewById(R.id.monthSurplusTextView);
     }
 
     @Override
@@ -80,6 +77,13 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
                 showNewEnvelopDialog();
             }
         });
+    }
+
+    @Override
+    public void setMonthInformation(int budget, int cost, int sup) {
+        monthBudgetTextView.setText(String.valueOf(budget));
+        monthCostTextView.setText(String.valueOf(cost));
+        monthSurplusTextView.setText(String.valueOf(sup));
     }
 
     public void showNewEnvelopDialog(){

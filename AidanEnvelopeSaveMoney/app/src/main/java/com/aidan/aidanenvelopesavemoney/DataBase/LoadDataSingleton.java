@@ -5,6 +5,7 @@ import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,19 +32,30 @@ public class LoadDataSingleton {
         return accountList;
     }
     public void addAccount(Account account){
-        accountList.add(account);
+        accountList.add(0,account);
+        saveAccount(account);
     }
-
+    public void saveAccount(Account account){
+        if (!AccountDAO.getInstance().update(account))
+            AccountDAO.getInstance().insert(account);
+    }
+    public void saveEnvelope(Envelope envelope){
+        if (!EnvelopeDAO.getInstance().update(envelope))
+            EnvelopeDAO.getInstance().insert(envelope);
+    }
+    public void deleteEnvelope(Envelope envelope){
+        EnvelopeDAO.getInstance().delete(envelope.getIndex());
+    }
+    public void deleteAccount(Account account){
+        AccountDAO.getInstance().delete(account.getIndex());
+    }
     public void saveToDB() {
         try {
-            EnvelopeDAO.getInstance().removeAll();
             for (Envelope envelope : envelopeList) {
-                if (!EnvelopeDAO.getInstance().update(envelope))
-                    EnvelopeDAO.getInstance().insert(envelope);
-                for (Account account : envelope.getAccountList()) {
-                    if (!AccountDAO.getInstance().update(account))
-                        AccountDAO.getInstance().insert(account);
-                }
+                saveEnvelope(envelope);
+            }
+            for (Account account : accountList) {
+                saveAccount(account);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,6 +68,7 @@ public class LoadDataSingleton {
         try {
             envelopeList = EnvelopeDAO.getInstance().getAll();
             accountList = AccountDAO.getInstance().getAll();
+            Collections.reverse(accountList);
             for (Envelope envelope : envelopeList) {
 //                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getId()));
                 envelopeHashMap.put(envelope.getId(),envelope);

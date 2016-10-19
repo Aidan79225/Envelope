@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aidan.aidanenvelopesavemoney.AccountList.AccountListFragment;
+import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
@@ -118,6 +119,7 @@ public class EnvelopeAdapter extends BaseAdapter implements EnvelopeListContract
             @Override
             public void onClick(View v) {
                 envelopeList.remove(envelope);
+                LoadDataSingleton.getInstance().deleteEnvelope(envelope);
                 notifyDataSetChanged();
                 dialog.dismiss();
             }

@@ -11,6 +11,7 @@ import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class AccountListAdapter extends BaseAdapter {
 
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
+
     }
     @Override
     public int getCount() {

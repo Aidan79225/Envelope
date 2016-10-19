@@ -55,7 +55,15 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
     }
     public void setTabBar(){
         tabBar = (TabBar)findViewById(R.id.tabBar);
-        tabBar.addTabs(new String[]{getResources().getString(R.string.envelop),getResources().getString(R.string.account)},new int[]{R.mipmap.envelop2 ,R.mipmap.envelop});
+        tabBar.addTabs(
+                new String[]{
+                        getResources().getString(R.string.envelop),
+                        getResources().getString(R.string.account),
+                        getResources().getString(R.string.information)},
+                new int[]{
+                        R.mipmap.envelop3 ,
+                        R.mipmap.envelop ,
+                        R.mipmap.envelop2});
         tabBar.setTabBarListener(this);
     }
     public void findView(){

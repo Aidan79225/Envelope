@@ -11,6 +11,7 @@
     <string name="photo">照片 </string>
     <string name="envelop">信封袋 </string>
     <string name="account">帳務 </string>
+    <string name="information">資訊 </string>
     <!--AccountListFragment-->
 
     <!--EnvelopeListFragment-->
@@ -26,6 +27,8 @@
     <string name="check_accounts">檢視帳務</string>
     <string name="delete">刪除</string>
     <string name="set_envelop">設定信封資料</string>
+    <string name="month_budget">本月預算</string>
     <string name="month_cost">本月花費</string>
+    <string name="month_surplus">本月剩餘</string>
 
 </resources>

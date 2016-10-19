@@ -31,6 +31,7 @@ public class EnvelopeListModel {
         envelopeList.add(envelope);
         for (EnvelopeListContract.newData newData : updateList)
             newData.update();
+        LoadDataSingleton.getInstance().saveEnvelope(envelope);
     }
 
     public List<Envelope> getEnvelopeList() {

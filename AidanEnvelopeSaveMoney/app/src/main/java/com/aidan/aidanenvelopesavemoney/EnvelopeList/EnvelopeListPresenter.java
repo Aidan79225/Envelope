@@ -2,6 +2,8 @@ package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 
+import java.util.List;
+
 /**
  * Created by Aidan on 2016/10/1.
  */
@@ -33,6 +35,7 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
         view.findView();
         view.setEnvelopeGridView();
         view.setViewClick();
+        setMonthCost();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
         Envelope envelope = new Envelope();
         envelope.setName(name);
         float fmax = Float.parseFloat(max);
-        envelope.setMax((int)fmax);
+        envelope.setMax((int) fmax);
         model.addEnvelope(envelope);
 
     }
@@ -53,10 +56,18 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
         adapter.setEnvelopeList(model.getEnvelopeList());
     }
 
-    @Override
-    public void saveData() {
-        model.saveToDB();
-    }
 
+    public void setMonthCost(){
+        List<Envelope> envelopes = model.getEnvelopeList();
+        int budget = 0;
+        int monthCost = 0;
+        int sup;
+        for(Envelope envelope : envelopes){
+            budget += envelope.getMax();
+            monthCost += envelope.getCost();
+        }
+        sup = budget - monthCost;
+        view.setMonthInformation(budget,monthCost,sup);
+    }
 
 }

@@ -11,13 +11,13 @@ public interface EnvelopeListContract {
         void findView();
         void setEnvelopeGridView();
         void setViewClick();
+        void setMonthInformation(int budget, int cost, int sup);
     }
     interface presenter{
         void setAdapter(EnvelopeAdapter adapter);
         void start();
         void addEnvelopButtonClick(String name,String max);
         void adapterLoadData();
-        void saveData();
     }
     interface newData{
         void update();

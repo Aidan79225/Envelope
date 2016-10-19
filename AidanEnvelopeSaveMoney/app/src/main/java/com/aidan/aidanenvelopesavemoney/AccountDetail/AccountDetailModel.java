@@ -15,5 +15,6 @@ public class AccountDetailModel {
         envelope.getAccountList().remove(account);
         envelope.getAccountList().add(account);
         envelope.refresh();
+        LoadDataSingleton.getInstance().saveAccount(account);
     }
 }
