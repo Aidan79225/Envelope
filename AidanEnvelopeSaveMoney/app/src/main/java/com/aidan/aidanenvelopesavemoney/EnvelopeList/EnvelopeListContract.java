@@ -1,25 +1,31 @@
 package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
-import com.aidan.aidanenvelopesavemoney.Model.Envelope;
-
 /**
  * Created by Aidan on 2016/10/1.
  */
 
 public interface EnvelopeListContract {
-    interface view{
+    interface view {
         void findView();
+
         void setEnvelopeGridView();
+
         void setViewClick();
+
         void setMonthInformation(int budget, int cost, int sup);
     }
-    interface presenter{
+
+    interface presenter {
         void setAdapter(EnvelopeAdapter adapter);
+
         void start();
-        void addEnvelopButtonClick(String name,String max);
+
+        void addEnvelopButtonClick(String name, String max);
+
         void adapterLoadData();
     }
-    interface newData{
+
+    interface newData {
         void update();
     }
 }

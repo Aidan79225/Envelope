@@ -11,10 +11,12 @@ public class AccountDetailPresenter implements AccountDetailContract.presenter {
     AccountDetailModel model;
     Account account;
     boolean change = true;
-    public AccountDetailPresenter(AccountDetailContract.view view){
+
+    public AccountDetailPresenter(AccountDetailContract.view view) {
         this.view = view;
         model = new AccountDetailModel();
     }
+
     @Override
     public void start() {
         view.findView();
@@ -29,10 +31,10 @@ public class AccountDetailPresenter implements AccountDetailContract.presenter {
 
     @Override
     public void changeButtonClick() {
-        if(change){
+        if (change) {
             view.prepareChange();
             change = false;
-        }else{
+        } else {
             view.saveChange();
             change = true;
         }

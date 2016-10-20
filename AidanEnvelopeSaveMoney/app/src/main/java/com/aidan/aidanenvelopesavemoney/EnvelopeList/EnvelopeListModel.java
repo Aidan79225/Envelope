@@ -1,12 +1,6 @@
 package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
-import android.util.Log;
-
-import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
-import com.aidan.aidanenvelopesavemoney.DataBase.DBHelper;
-import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
-import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 

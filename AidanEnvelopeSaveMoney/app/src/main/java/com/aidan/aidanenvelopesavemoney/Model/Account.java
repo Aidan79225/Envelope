@@ -13,19 +13,23 @@ public class Account {
     private String envelopeName = "";
     private String id = "";
     private Date date;
-    private long index =0;
+    private long index = 0;
     private String envelopId = "";
-    public Account(){
-        id = UUID.randomUUID().toString().substring(0,10);
+
+    public Account() {
+        id = UUID.randomUUID().toString().substring(0, 10);
         date = new Date();
     }
-    public String getDate(){
+
+    public String getDate() {
         return date.toLocaleString();
     }
-    public long getTime(){
+
+    public long getTime() {
         return date.getTime();
     }
-    public void setTime(long time){
+
+    public void setTime(long time) {
         date.setTime(time);
     }
 
@@ -75,5 +79,8 @@ public class Account {
 
     public void setEnvelopId(String envelopId) {
         this.envelopId = envelopId;
+    }
+    public boolean isToday(){
+        return date.getDate() - (new Date().getDate()) == 0;
     }
 }

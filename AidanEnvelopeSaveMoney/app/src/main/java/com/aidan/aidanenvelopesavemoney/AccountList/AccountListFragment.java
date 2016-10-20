@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.aidan.aidanenvelopesavemoney.AccountDetail.AccountDetailFragment;
-import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.R;
 
@@ -28,23 +27,27 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
     AccountListContract.presenter presenter;
     ListView accountListView;
     String title = "";
-    public static AccountListFragment newInstance(List<Account> accountList){
+
+    public static AccountListFragment newInstance(List<Account> accountList) {
         AccountListFragment fragment = new AccountListFragment();
-        fragment.presenter = new AccountListPresenter(fragment,accountList);
+        fragment.presenter = new AccountListPresenter(fragment, accountList);
         return fragment;
     }
-    public void setTitle(String title){
+
+    public void setTitle(String title) {
         this.title = title;
     }
+
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_account_list, container, false);
-        if(presenter == null)dismiss();
+        if (presenter == null) dismiss();
         else presenter.start();
         return rootView;
     }
@@ -52,18 +55,20 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
 
     @Override
     public void findView() {
-        accountListView = (ListView)rootView.findViewById(R.id.accountListView);
-        if(title.length() > 0)setTitle(title);
+        accountListView = (ListView) rootView.findViewById(R.id.accountListView);
+        if (title.length() > 0) setTitle(title);
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            ((AccountListAdapter)accountListView.getAdapter()).notifyDataSetChanged();
+            ((AccountListAdapter) accountListView.getAdapter()).notifyDataSetChanged();
         }
 
     }
@@ -83,7 +88,8 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         });
         accountListView.setOnItemLongClickListener(longClickListener);
     }
-    public void showDetailFragment(Account account){
+
+    public void showDetailFragment(Account account) {
         AccountDetailFragment fragment = AccountDetailFragment.newInstance(account);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -92,14 +98,16 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         transaction.addToBackStack(this.getClass().getName());
         transaction.commit();
     }
+
     AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            showDialogForDelete(position);
+            if (position > 0) showDialogForDelete(position);
             return true;
         }
     };
-    public void showDialogForDelete(final int position){
+
+    public void showDialogForDelete(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.delete);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -115,9 +123,6 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         });
         builder.create().show();
     }
-
-
-
 
 
 }

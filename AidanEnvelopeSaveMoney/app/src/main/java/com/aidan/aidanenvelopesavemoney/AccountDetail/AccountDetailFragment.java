@@ -25,35 +25,37 @@ import com.aidan.aidanenvelopesavemoney.R;
 public class AccountDetailFragment extends DialogFragment implements AccountDetailContract.view {
     ViewGroup rootView;
     AccountDetailContract.presenter presenter;
-    TextView envelopNameTextView,dateTextView;
-    EditText commentEditText,costEditText;
+    TextView envelopNameTextView, dateTextView;
+    EditText commentEditText, costEditText;
     ImageView photoImageView;
     LinearLayout photoLinearLayout;
     Button changeButton;
-    public static AccountDetailFragment newInstance(Account account){
+
+    public static AccountDetailFragment newInstance(Account account) {
         AccountDetailFragment fragment = new AccountDetailFragment();
         fragment.presenter = new AccountDetailPresenter(fragment);
         fragment.presenter.setData(account);
         return fragment;
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_account_detail, container, false);
-        if(presenter == null)dismiss();
+        if (presenter == null) dismiss();
         else presenter.start();
         return rootView;
     }
 
     @Override
     public void findView() {
-        envelopNameTextView = (TextView)rootView.findViewById(R.id.envelopNameTextView);
-        dateTextView = (TextView)rootView.findViewById(R.id.dateTextView);
-        commentEditText =  (EditText) rootView.findViewById(R.id.commentEditText);
-        costEditText = (EditText)rootView.findViewById(R.id.costEditText);
-        photoImageView= (ImageView) rootView.findViewById(R.id.photoImageView);
-        photoLinearLayout= (LinearLayout) rootView.findViewById(R.id.photoLinearLayout);
-        changeButton= (Button)rootView.findViewById(R.id.changeButton);
+        envelopNameTextView = (TextView) rootView.findViewById(R.id.envelopNameTextView);
+        dateTextView = (TextView) rootView.findViewById(R.id.dateTextView);
+        commentEditText = (EditText) rootView.findViewById(R.id.commentEditText);
+        costEditText = (EditText) rootView.findViewById(R.id.costEditText);
+        photoImageView = (ImageView) rootView.findViewById(R.id.photoImageView);
+        photoLinearLayout = (LinearLayout) rootView.findViewById(R.id.photoLinearLayout);
+        changeButton = (Button) rootView.findViewById(R.id.changeButton);
     }
 
     @Override
@@ -65,8 +67,9 @@ public class AccountDetailFragment extends DialogFragment implements AccountDeta
         commentEditText.setInputType(InputType.TYPE_NULL);
         costEditText.setInputType(InputType.TYPE_NULL);
     }
+
     @Override
-    public void setViewClick(){
+    public void setViewClick() {
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,22 +89,23 @@ public class AccountDetailFragment extends DialogFragment implements AccountDeta
     public void saveChange() {
         String cost = costEditText.getText().toString();
         String comment = commentEditText.getText().toString();
-        if(cost.length() == 0 ){
-            Toast.makeText(getActivity(),R.string.cost_cant_be_void,Toast.LENGTH_SHORT).show();
+        if (cost.length() == 0) {
+            Toast.makeText(getActivity(), R.string.cost_cant_be_void, Toast.LENGTH_SHORT).show();
             return;
         }
         hideKey(commentEditText);
         commentEditText.setInputType(InputType.TYPE_NULL);
         costEditText.setInputType(InputType.TYPE_NULL);
-        presenter.setAccount(cost,comment);
+        presenter.setAccount(cost, comment);
         changeButton.setText(R.string.edit);
     }
-    public void hideKey(EditText editText){
+
+    public void hideKey(EditText editText) {
         try {
             InputMethodManager input = (InputMethodManager) getActivity()
                     .getSystemService(Activity.INPUT_METHOD_SERVICE);
             input.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

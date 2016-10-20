@@ -3,21 +3,14 @@ package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
-import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
-import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
 
 /**
@@ -28,24 +21,28 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     private View rootView;
     private GridView envelopesGridView;
     private Button addEnvelopeButton;
-    private TextView monthCostTextView,monthBudgetTextView,monthSurplusTextView;
+    private TextView monthCostTextView, monthBudgetTextView, monthSurplusTextView;
     public EnvelopeListContract.presenter presenter;
+
     @Override
-    public void onCreate(Bundle s){
+    public void onCreate(Bundle s) {
         super.onCreate(s);
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
     }
+
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_envelope_list, container, false);
-        if(presenter == null){
+        if (presenter == null) {
             presenter = new EnvelopeListPresenter(this);
         }
         presenter.start();
@@ -55,15 +52,15 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
     @Override
     public void findView() {
         envelopesGridView = (GridView) rootView.findViewById(R.id.envelopesGridView);
-        addEnvelopeButton =(Button)rootView.findViewById(R.id.addEnvelopeButton);
-        monthCostTextView = (TextView)rootView.findViewById(R.id.monthCostTextView);
-        monthBudgetTextView = (TextView)rootView.findViewById(R.id.monthBudgetTextView);
-        monthSurplusTextView = (TextView)rootView.findViewById(R.id.monthSurplusTextView);
+        addEnvelopeButton = (Button) rootView.findViewById(R.id.addEnvelopeButton);
+        monthCostTextView = (TextView) rootView.findViewById(R.id.monthCostTextView);
+        monthBudgetTextView = (TextView) rootView.findViewById(R.id.monthBudgetTextView);
+        monthSurplusTextView = (TextView) rootView.findViewById(R.id.monthSurplusTextView);
     }
 
     @Override
     public void setEnvelopeGridView() {
-        EnvelopeAdapter adapter = new EnvelopeAdapter(getActivity(),this);
+        EnvelopeAdapter adapter = new EnvelopeAdapter(getActivity(), this);
         presenter.setAdapter(adapter);
         presenter.adapterLoadData();
         envelopesGridView.setAdapter(adapter);
@@ -86,7 +83,7 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         monthSurplusTextView.setText(String.valueOf(sup));
     }
 
-    public void showNewEnvelopDialog(){
+    public void showNewEnvelopDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View dialogView = inflater.inflate(R.layout.dialog_new_envelop, null);
@@ -101,7 +98,7 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
             public void onClick(View v) {
                 String name = nameEditText.getText().toString();
                 String max = maxEditText.getText().toString();
-                presenter.addEnvelopButtonClick(name,max);
+                presenter.addEnvelopButtonClick(name, max);
                 dialog.dismiss();
             }
         });
@@ -114,8 +111,6 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         builder.setView(dialogView);
         dialog.show();
     }
-
-
 
 
 }

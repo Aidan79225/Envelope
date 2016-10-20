@@ -1,9 +1,6 @@
 package com.aidan.aidanenvelopesavemoney.AccountList;
 
-import android.widget.BaseAdapter;
-
 import com.aidan.aidanenvelopesavemoney.Model.Account;
-import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 
 import java.util.List;
 
@@ -15,12 +12,14 @@ public class AccountListPresenter implements AccountListContract.presenter {
     AccountListContract.view view;
     AccountListModel model;
     AccountListAdapter adapter;
-    public AccountListPresenter(AccountListContract.view view,List<Account> accountList){
+
+    public AccountListPresenter(AccountListContract.view view, List<Account> accountList) {
         this.view = view;
         model = new AccountListModel();
         model.setAccountList(accountList);
     }
-    private AccountListPresenter(){
+
+    private AccountListPresenter() {
 
     }
 

@@ -14,6 +14,7 @@ import java.util.List;
 public class AccountListModel {
     Envelope envelope;
     List<Account> accountList = new ArrayList<>();
+
     public List<Account> getAccountList() {
         return accountList;
     }
@@ -21,14 +22,13 @@ public class AccountListModel {
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
     }
-    public void deleteAccount(int position){
-        long id = accountList.get(position-1).getIndex();
-        accountList.remove(position-1);
+
+    public void deleteAccount(int position) {
+        long id = accountList.get(position - 1).getIndex();
+        accountList.remove(position - 1);
         AccountDAO.getInstance().delete(id);
 
     }
-
-
 
 
 }

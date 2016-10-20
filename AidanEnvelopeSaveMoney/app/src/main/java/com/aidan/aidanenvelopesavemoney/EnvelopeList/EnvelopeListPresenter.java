@@ -12,13 +12,13 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
     private EnvelopeListContract.view view;
     private EnvelopeListModel model;
     private EnvelopeAdapter adapter;
+
     public EnvelopeAdapter getAdapter() {
         return adapter;
     }
 
 
-
-    public EnvelopeListPresenter(EnvelopeListContract.view view){
+    public EnvelopeListPresenter(EnvelopeListContract.view view) {
         this.view = view;
         model = new EnvelopeListModel();
     }
@@ -40,8 +40,8 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
 
     @Override
     public void addEnvelopButtonClick(String name, String max) {
-        if(name.length() == 0 )name = "未設置名稱";
-        if(max.length() == 0 )max = "0.00";
+        if (name.length() == 0) name = "未設置名稱";
+        if (max.length() == 0) max = "0.00";
 
         Envelope envelope = new Envelope();
         envelope.setName(name);
@@ -52,22 +52,22 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
     }
 
     @Override
-    public void adapterLoadData(){
+    public void adapterLoadData() {
         adapter.setEnvelopeList(model.getEnvelopeList());
     }
 
 
-    public void setMonthCost(){
+    public void setMonthCost() {
         List<Envelope> envelopes = model.getEnvelopeList();
         int budget = 0;
         int monthCost = 0;
         int sup;
-        for(Envelope envelope : envelopes){
+        for (Envelope envelope : envelopes) {
             budget += envelope.getMax();
             monthCost += envelope.getCost();
         }
         sup = budget - monthCost;
-        view.setMonthInformation(budget,monthCost,sup);
+        view.setMonthInformation(budget, monthCost, sup);
     }
 
 }

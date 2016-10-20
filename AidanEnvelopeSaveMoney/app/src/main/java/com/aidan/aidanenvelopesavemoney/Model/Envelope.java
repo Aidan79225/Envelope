@@ -12,13 +12,14 @@ import java.util.UUID;
 
 public class Envelope {
     private String id = "";
-    private String name ="";
+    private String name = "";
     private int max = 0;
-    private float cost = 0;
-    private long index =0;
+    private int cost = 0;
+    private long index = 0;
     private List<Account> accountList = new ArrayList<Account>();
-    public Envelope(){
-        id = UUID.randomUUID().toString().substring(0,10);
+
+    public Envelope() {
+        id = UUID.randomUUID().toString().substring(0, 10);
     }
 
     public long getIndex() {
@@ -37,20 +38,21 @@ public class Envelope {
         this.id = id;
     }
 
-    public float getCost() {
+    public int getCost() {
         return cost;
     }
 
     public void setCost(int cost) {
         this.cost = cost;
     }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-        for(Account account : accountList){
+        for (Account account : accountList) {
             account.setEnvelopeName(name);
             Singleton.log("change");
         }
@@ -71,22 +73,24 @@ public class Envelope {
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
     }
+
     public void addAccount(Account account) {
         accountList.add(account);
         cost += account.getCost();
 
     }
+
     public void addAccountFromDB(Account account) {
         accountList.add(account);
     }
 
-    protected boolean equals(Envelope envelope){
+    protected boolean equals(Envelope envelope) {
         return envelope.getId().equals(this.id);
     }
 
-    public void refresh(){
+    public void refresh() {
         cost = 0;
-        for(Account account : accountList){
+        for (Account account : accountList) {
             cost += account.getCost();
         }
     }

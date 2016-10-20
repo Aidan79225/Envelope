@@ -15,11 +15,12 @@ import java.util.List;
 
 public class LoadDataSingleton {
     private List<Envelope> envelopeList = new ArrayList<>();
-    private HashMap<String,Envelope> envelopeHashMap = new HashMap<>();
+    private HashMap<String, Envelope> envelopeHashMap = new HashMap<>();
     private List<Account> accountList = new ArrayList<>();
-    private static  LoadDataSingleton loadDataSingleton;
-    public static LoadDataSingleton getInstance(){
-        if(loadDataSingleton == null )
+    private static LoadDataSingleton loadDataSingleton;
+
+    public static LoadDataSingleton getInstance() {
+        if (loadDataSingleton == null)
             loadDataSingleton = new LoadDataSingleton();
         return loadDataSingleton;
     }
@@ -31,24 +32,30 @@ public class LoadDataSingleton {
     public List<Account> getAccountList() {
         return accountList;
     }
-    public void addAccount(Account account){
-        accountList.add(0,account);
+
+    public void addAccount(Account account) {
+        accountList.add(0, account);
         saveAccount(account);
     }
-    public void saveAccount(Account account){
+
+    public void saveAccount(Account account) {
         if (!AccountDAO.getInstance().update(account))
             AccountDAO.getInstance().insert(account);
     }
-    public void saveEnvelope(Envelope envelope){
+
+    public void saveEnvelope(Envelope envelope) {
         if (!EnvelopeDAO.getInstance().update(envelope))
             EnvelopeDAO.getInstance().insert(envelope);
     }
-    public void deleteEnvelope(Envelope envelope){
+
+    public void deleteEnvelope(Envelope envelope) {
         EnvelopeDAO.getInstance().delete(envelope.getIndex());
     }
-    public void deleteAccount(Account account){
+
+    public void deleteAccount(Account account) {
         AccountDAO.getInstance().delete(account.getIndex());
     }
+
     public void saveToDB() {
         try {
             for (Envelope envelope : envelopeList) {
@@ -61,9 +68,11 @@ public class LoadDataSingleton {
             e.printStackTrace();
         }
     }
-    public Envelope getEnvelope(String id){
+
+    public Envelope getEnvelope(String id) {
         return envelopeHashMap.get(id);
     }
+
     public void loadFromDB() {
         try {
             envelopeList = EnvelopeDAO.getInstance().getAll();
@@ -71,9 +80,9 @@ public class LoadDataSingleton {
             Collections.reverse(accountList);
             for (Envelope envelope : envelopeList) {
 //                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getId()));
-                envelopeHashMap.put(envelope.getId(),envelope);
-                for(Account account : accountList){
-                    if(account.getEnvelopId().equals(envelope.getId()))
+                envelopeHashMap.put(envelope.getId(), envelope);
+                for (Account account : accountList) {
+                    if (account.getEnvelopId().equals(envelope.getId()))
                         envelope.addAccountFromDB(account);
                 }
                 envelope.refresh();

@@ -27,8 +27,13 @@
     <string name="check_accounts">檢視帳務</string>
     <string name="delete">刪除</string>
     <string name="set_envelop">設定信封資料</string>
+
     <string name="month_budget">本月預算</string>
     <string name="month_cost">本月花費</string>
+    <string name="today_cost">本日花費</string>
     <string name="month_surplus">本月剩餘</string>
+    <string name="create_excel">建立Excel存擋</string>
+    <string name="read_excel">從Excel讀檔</string>
+
 
 </resources>

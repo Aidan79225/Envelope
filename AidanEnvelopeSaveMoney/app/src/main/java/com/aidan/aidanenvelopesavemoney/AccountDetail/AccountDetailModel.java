@@ -9,9 +9,9 @@ import com.aidan.aidanenvelopesavemoney.Model.Envelope;
  */
 
 public class AccountDetailModel {
-    public void setAccountChange(Account account){
+    public void setAccountChange(Account account) {
         Envelope envelope = LoadDataSingleton.getInstance().getEnvelope(account.getEnvelopId());
-        if(envelope == null)return;
+        if (envelope == null) return;
         envelope.getAccountList().remove(account);
         envelope.getAccountList().add(account);
         envelope.refresh();

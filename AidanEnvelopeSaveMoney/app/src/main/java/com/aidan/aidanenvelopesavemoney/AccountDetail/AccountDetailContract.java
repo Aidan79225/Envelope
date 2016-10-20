@@ -7,17 +7,25 @@ import com.aidan.aidanenvelopesavemoney.Model.Account;
  */
 
 public interface AccountDetailContract {
-    interface view{
+    interface view {
         void findView();
+
         void setView(Account account);
+
         void setViewClick();
+
         void prepareChange();
+
         void saveChange();
     }
-    interface presenter{
+
+    interface presenter {
         void start();
+
         void setData(Account account);
+
         void changeButtonClick();
-        void setAccount(String cost,String comment);
+
+        void setAccount(String cost, String comment);
     }
 }

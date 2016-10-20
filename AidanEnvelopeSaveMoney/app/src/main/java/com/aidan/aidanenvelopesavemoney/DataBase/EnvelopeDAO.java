@@ -34,25 +34,29 @@ public class EnvelopeDAO {
                     KeyID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     NameColumn + " TEXT NOT NULL, " +
                     MaxColumn + " INTEGER NOT NULL, " +
-                    ObjectIdColumn + " TEXT NOT NULL, "+
+                    ObjectIdColumn + " TEXT NOT NULL, " +
                     CostColumn + " TEXT NOT NULL)";
     private SQLiteDatabase db;
     private static EnvelopeDAO envelopeDAO;
-    public static void init(Context context){
+
+    public static void init(Context context) {
         Singleton.log("EnvelopeDAO init");
         envelopeDAO = new EnvelopeDAO(context);
     }
-    public static EnvelopeDAO getInstance(){
-        if (envelopeDAO == null)return null;
+
+    public static EnvelopeDAO getInstance() {
+        if (envelopeDAO == null) return null;
         return envelopeDAO;
     }
 
     private EnvelopeDAO(Context context) {
         db = DBHelper.getDatabase(context);
     }
+
     public void close() {
         db.close();
     }
+
     // 新增參數指定的物件
     public Envelope insert(Envelope item) {
         // 建立準備新增資料的ContentValues物件
@@ -69,6 +73,7 @@ public class EnvelopeDAO {
         // 回傳結果
         return item;
     }
+
     // 修改參數指定的物件
     public boolean update(Envelope item) {
         // 建立準備修改資料的ContentValues物件
@@ -86,18 +91,21 @@ public class EnvelopeDAO {
         String where = KeyID + "=" + item.getIndex();
         long test = db.update(TABLE_NAME, cv, where, null);
         // 執行修改資料並回傳修改的資料數量是否成功
-        Log.e(TAG,test + "");
+        Log.e(TAG, test + "");
         return test > 0;
     }
-    public boolean delete(long id){
+
+    public boolean delete(long id) {
         // 設定條件為編號，格式為「欄位名稱=資料」
         String where = KeyID + "=" + id;
         // 刪除指定編號資料並回傳刪除是否成功
-        return db.delete(TABLE_NAME, where , null) > 0;
+        return db.delete(TABLE_NAME, where, null) > 0;
     }
+
     public void removeAll() {
         db.delete(TABLE_NAME, null, null);
     }
+
     public List<Envelope> getAll() {
         List<Envelope> result = new ArrayList<>();
         Cursor cursor = db.query(
@@ -110,6 +118,7 @@ public class EnvelopeDAO {
         cursor.close();
         return result;
     }
+
     // 取得指定編號的資料物件
     public Envelope get(long id) {
         // 準備回傳結果用的物件

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-
 import com.aidan.aidanenvelopesavemoney.R;
 
 import java.util.HashSet;

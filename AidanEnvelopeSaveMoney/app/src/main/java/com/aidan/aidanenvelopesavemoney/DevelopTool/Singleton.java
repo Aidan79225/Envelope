@@ -9,6 +9,7 @@ import com.aidan.aidanenvelopesavemoney.BuildConfig;
  */
 public class Singleton {
     public static final boolean logSend = BuildConfig.IS_SANDBOX;
+
     public static void log(String log) {
         if (logSend) {
             StackTraceElement ste = getCallerCallerClassName();
@@ -18,6 +19,7 @@ public class Singleton {
                 Log.e("", "at line:" + ste.getLineNumber() + " " + log);
         }
     }
+
     public static StackTraceElement getCallerCallerClassName() {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         for (int i = 1; i < stElements.length; i++) {
