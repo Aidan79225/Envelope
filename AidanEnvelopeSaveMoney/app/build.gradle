@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         def IS_SANDBOX = "IS_SANDBOX"
@@ -37,4 +38,15 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile files('src/lib/jxl.jar')
+    // Include the sdk as a dependency
+    compile ('com.onedrive.sdk:onedrive-sdk-android:1.2+') {
+        transitive = false
+    }
+
+    // Include the gson dependency
+    compile ('com.google.code.gson:gson:2.3.1')
+
+    // Include supported authentication methods for your application
+    compile ('com.microsoft.services.msa:msa-auth:0.8.+')
+    compile ('com.microsoft.aad:adal:1.1.+')
 }

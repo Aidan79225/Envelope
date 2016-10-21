@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aidan.aidanenvelopesavemoney.Network.OneDriveService;
 import com.aidan.aidanenvelopesavemoney.R;
 
 /**
@@ -18,7 +19,7 @@ import com.aidan.aidanenvelopesavemoney.R;
 public class InformationFragment extends DialogFragment implements InformationContract.view {
     InformationContract.presenter presenter;
     ViewGroup rootView;
-    Button createExcelButton, readExcelButton;
+    Button createExcelButton, readExcelButton,uploadToOneDriveButton,downFromOneDriveButton;
     private TextView monthCostTextView, monthBudgetTextView, monthSurplusTextView,todayCostTextView;
 
     public static InformationFragment newInstance() {
@@ -42,8 +43,10 @@ public class InformationFragment extends DialogFragment implements InformationCo
 
     @Override
     public void findView() {
+        downFromOneDriveButton = (Button)rootView.findViewById(R.id.downFromOneDriveButton);
         createExcelButton = (Button) rootView.findViewById(R.id.createExcelButton);
         readExcelButton = (Button) rootView.findViewById(R.id.readExcelButton);
+        uploadToOneDriveButton = (Button)rootView.findViewById(R.id.uploadToOneDriveButton);
         monthCostTextView = (TextView) rootView.findViewById(R.id.monthCostTextView);
         monthBudgetTextView = (TextView) rootView.findViewById(R.id.monthBudgetTextView);
         monthSurplusTextView = (TextView) rootView.findViewById(R.id.monthSurplusTextView);
@@ -70,6 +73,29 @@ public class InformationFragment extends DialogFragment implements InformationCo
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        uploadToOneDriveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OneDriveService.getInstance().upload(getActivity());
+                    }
+                }).start();
+            }
+        });
+        downFromOneDriveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OneDriveService.getInstance().download(getActivity());
+
+                    }
+                }).start();
             }
         });
     }

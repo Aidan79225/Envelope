@@ -34,6 +34,7 @@
     <string name="month_surplus">本月剩餘</string>
     <string name="create_excel">建立Excel存擋</string>
     <string name="read_excel">從Excel讀檔</string>
-
+    <string name="upload_to_one_drive">上傳至OneDrive</string>
+    <string name="download_from_one_drive">從OneDrive下載</string>
 
 </resources>

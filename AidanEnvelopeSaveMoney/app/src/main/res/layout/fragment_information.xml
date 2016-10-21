@@ -79,16 +79,32 @@
         </RelativeLayout>
         <Button
             android:id="@+id/createExcelButton"
-            android:layout_width="wrap_content"
+
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/create_excel"/>
         <Button
             android:id="@+id/readExcelButton"
-            android:layout_width="wrap_content"
+
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/read_excel"/>
+        <Button
+            android:id="@+id/uploadToOneDriveButton"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/upload_to_one_drive"/>
+        <Button
+            android:id="@+id/downFromOneDriveButton"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/download_from_one_drive"/>
 
     </LinearLayout>
 </LinearLayout>
