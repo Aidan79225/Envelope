@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AidanEnvelopeSaveMoney</string>
+    <string name="app_name">LVB信封理財王</string>
     <!--AccountDetailFragment-->
     <string name="cost_cant_be_void">花費不能為空</string>
     <string name="save">儲存</string>
@@ -36,5 +36,8 @@
     <string name="read_excel">從Excel讀檔</string>
     <string name="upload_to_one_drive">上傳至OneDrive</string>
     <string name="download_from_one_drive">從OneDrive下載</string>
-
+    <string name="complete">完成</string>
+    <string name="fail">失敗</string>
+    <string name="bill">月結</string>
+    <string name="bill_content">\t\t月結將會清除所有信封袋裡的帳務</string>
 </resources>

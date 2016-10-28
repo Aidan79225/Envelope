@@ -1,11 +1,19 @@
 package com.aidan.aidanenvelopesavemoney.MainPageManager;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aidan.aidanenvelopesavemoney.AccountList.AccountListFragment;
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
@@ -13,7 +21,12 @@ import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.EnvelopeList.EnvelopeListFragment;
 import com.aidan.aidanenvelopesavemoney.Information.InformationFragment;
+import com.aidan.aidanenvelopesavemoney.Model.Constants;
+import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TabBar.TabBarListener {
     private RelativeLayout fragmentContainerRelativeLayout;
@@ -110,5 +123,68 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
                 break;
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.bill) {
+            showBillingDialog();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    public void showBillingDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_bill_month, null, false);
+        TextView okTextView = (TextView)dialogView.findViewById(R.id.okTextView);
+        TextView cancelTextView = (TextView)dialogView.findViewById(R.id.cancelTextView);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        okTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                billMonth();
+                dialog.dismiss();
+            }
+        });
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public void billMonth(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Envelope> envelopes = new ArrayList<>();
+                envelopes.addAll(LoadDataSingleton.getInstance().getEnvelopeList());
+                for(Envelope envelope :envelopes){
+                    envelope.tobeNewEnvelope();
+                }
+                sendBroadcast(new Intent(Constants.envelopeRefresh));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),R.string.complete,Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+
+    }
 }

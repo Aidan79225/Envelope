@@ -2,6 +2,10 @@ package com.aidan.aidanenvelopesavemoney.EnvelopeList;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.aidan.aidanenvelopesavemoney.Model.Constants;
 import com.aidan.aidanenvelopesavemoney.R;
 
 /**
@@ -46,9 +51,14 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
             presenter = new EnvelopeListPresenter(this);
         }
         presenter.start();
+        getActivity().registerReceiver(receiver, new IntentFilter(Constants.envelopeRefresh));
         return rootView;
     }
-
+    @Override
+    public void onDestroyView(){
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroyView();
+    }
     @Override
     public void findView() {
         envelopesGridView = (GridView) rootView.findViewById(R.id.envelopesGridView);
@@ -111,6 +121,12 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         builder.setView(dialogView);
         dialog.show();
     }
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            presenter.refresh();
+        }
+    };
 
 
 }

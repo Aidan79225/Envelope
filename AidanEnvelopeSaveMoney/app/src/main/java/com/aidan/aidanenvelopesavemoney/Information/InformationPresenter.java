@@ -3,6 +3,7 @@ package com.aidan.aidanenvelopesavemoney.Information;
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
+import com.aidan.aidanenvelopesavemoney.R;
 
 import java.util.List;
 
@@ -28,15 +29,28 @@ public class InformationPresenter implements InformationContract.presenter {
     }
 
     @Override
-    public void createExcelButtonClick(String path) {
-        WriteExcel writeExcel = new WriteExcel(model);
-        writeExcel.createExcel(path);
+    public void createExcelButtonClick(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WriteExcel writeExcel = new WriteExcel(model);
+                writeExcel.createExcel(path);
+                view.showToast(R.string.complete);
+            }
+        }).start();
+
     }
 
     @Override
-    public void readExcelButtonClick(String path) {
-        ReadExcel readExcel = new ReadExcel();
-        readExcel.read(path);
+    public void readExcelButtonClick(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ReadExcel readExcel = new ReadExcel();
+                readExcel.read(path);
+                view.showToast(R.string.complete);
+            }
+        }).start();
     }
 
     public void setMonthCost() {

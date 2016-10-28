@@ -1,5 +1,6 @@
 package com.aidan.aidanenvelopesavemoney.Model;
 
+import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 
 import java.util.ArrayList;
@@ -93,6 +94,12 @@ public class Envelope {
         for (Account account : accountList) {
             cost += account.getCost();
         }
+    }
+    public void tobeNewEnvelope(){
+        id = UUID.randomUUID().toString().substring(0, 10);
+        accountList = new ArrayList<>();
+        cost = 0;
+        LoadDataSingleton.getInstance().saveEnvelope(this);
     }
 
 

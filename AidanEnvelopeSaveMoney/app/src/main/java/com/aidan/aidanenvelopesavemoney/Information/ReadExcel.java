@@ -65,7 +65,7 @@ public class ReadExcel {
     public void loadAccounts(Workbook w) {
         Sheet sheet = w.getSheet(1);
         List<Account> accountList = new ArrayList<>();
-        for (int i = 0; i < sheet.getRows(); i++) {
+        for (int i = sheet.getRows() - 1; i >= 0; i--) {
             String temp = "";
             for (int j = 0; j < sheet.getColumns(); j++) {
                 Cell cell = sheet.getCell(j, i);

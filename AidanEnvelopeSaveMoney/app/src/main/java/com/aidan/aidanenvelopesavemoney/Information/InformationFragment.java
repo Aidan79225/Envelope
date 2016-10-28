@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aidan.aidanenvelopesavemoney.Network.OneDriveService;
 import com.aidan.aidanenvelopesavemoney.R;
@@ -93,11 +94,11 @@ public class InformationFragment extends DialogFragment implements InformationCo
                     @Override
                     public void run() {
                         OneDriveService.getInstance().download(getActivity());
-
                     }
                 }).start();
             }
         });
+
     }
 
     @Override
@@ -106,5 +107,15 @@ public class InformationFragment extends DialogFragment implements InformationCo
         monthCostTextView.setText(String.valueOf(cost));
         monthSurplusTextView.setText(String.valueOf(sup));
         todayCostTextView.setText(String.valueOf(today));
+    }
+
+    @Override
+    public void showToast(final int msg) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

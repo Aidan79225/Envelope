@@ -56,6 +56,12 @@ public class EnvelopeListPresenter implements EnvelopeListContract.presenter {
         adapter.setEnvelopeList(model.getEnvelopeList());
     }
 
+    @Override
+    public void refresh() {
+        adapter.notifyDataSetChanged();
+        setMonthCost();
+    }
+
 
     public void setMonthCost() {
         List<Envelope> envelopes = model.getEnvelopeList();
