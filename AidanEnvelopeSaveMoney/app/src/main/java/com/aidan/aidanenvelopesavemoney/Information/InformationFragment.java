@@ -1,6 +1,8 @@
 package com.aidan.aidanenvelopesavemoney.Information;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -53,52 +55,94 @@ public class InformationFragment extends DialogFragment implements InformationCo
         monthSurplusTextView = (TextView) rootView.findViewById(R.id.monthSurplusTextView);
         todayCostTextView = (TextView) rootView.findViewById(R.id.todayCostTextView);
     }
+    Callback createExcel = new Callback() {
+        @Override
+        public void todo() {
+            try {
+                presenter.createExcelButtonClick(Environment.getExternalStorageDirectory().getAbsolutePath());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Callback readExcel = new Callback() {
+        @Override
+        public void todo() {
+            try {
+                presenter.readExcelButtonClick(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + WriteExcel.fileName + ".xls");
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Callback upload = new Callback() {
+        @Override
+        public void todo() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    OneDriveService.getInstance().upload(getActivity());
+                }
+            }).start();
+        }
+    };
+    Callback download = new Callback() {
+        @Override
+        public void todo() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    OneDriveService.getInstance().download(getActivity());
+                }
+            }).start();
+        }
+    };
 
     @Override
     public void setViewClick() {
         createExcelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    presenter.createExcelButtonClick(Environment.getExternalStorageDirectory().getAbsolutePath());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                showDialog(R.string.create_excel,R.string.create_excel,createExcel);
             }
         });
         readExcelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    presenter.readExcelButtonClick(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + WriteExcel.fileName + ".xls");
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                showDialog(R.string.read_excel,R.string.read_excel,readExcel);
             }
         });
         uploadToOneDriveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        OneDriveService.getInstance().upload(getActivity());
-                    }
-                }).start();
+                showDialog(R.string.upload_to_one_drive,R.string.upload_to_one_drive,upload);
             }
         });
         downFromOneDriveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        OneDriveService.getInstance().download(getActivity());
-                    }
-                }).start();
+                showDialog(R.string.download_from_one_drive,R.string.download_from_one_drive,download);
             }
         });
+    }
+    private void showDialog(int title,int msg, final Callback callback){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog dialog = builder.create();
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                callback.todo();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
+        builder.create().show();
     }
 
     @Override
@@ -117,5 +161,8 @@ public class InformationFragment extends DialogFragment implements InformationCo
                 Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    interface Callback{
+        void todo();
     }
 }

@@ -1,7 +1,9 @@
 package com.aidan.aidanenvelopesavemoney.Information;
 
+import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
+import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +36,8 @@ public class WriteExcel {
         File file;
         File dir = new File(path);
         file = new File(dir, fileName + ".xls");
+        file.delete();
+        file = new File(dir, fileName + ".xls");
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -50,6 +54,7 @@ public class WriteExcel {
             writeAccount(wwb);
             writeHistoryEnvelope(wwb);
             writeHistoryAccount(wwb);
+            writeMonth(wwb);
             wwb.write();
             wwb.close();
         } catch (WriteException writeException) {
@@ -130,7 +135,7 @@ public class WriteExcel {
                 label = new Label(i, 0, title[i]);
                 sheet.addCell(label);
             }
-            List<Envelope> envelopeList = model.getEnvelopeList();
+            List<Envelope> envelopeList = LoadDataSingleton.getInstance().getHistoryEnvelopeList();
             Envelope envelope;
             for (int i = 0; i < envelopeList.size(); i++) {
                 envelope = envelopeList.get(i);
@@ -156,7 +161,7 @@ public class WriteExcel {
                 label = new Label(i, 0, title[i]);
                 sheet.addCell(label);
             }
-            List<Account> accountList = model.getAccountList();
+            List<Account> accountList = LoadDataSingleton.getInstance().getHistoryAccountList();
             Account account;
             for (int i = 0; i < accountList.size(); i++) {
                 account = accountList.get(i);
@@ -175,6 +180,30 @@ public class WriteExcel {
                 sheet.addCell(envelopeName);
                 sheet.addCell(envelopeId);
                 sheet.addCell(accountTime);
+            }
+        } catch (WriteException writeException) {
+            writeException.printStackTrace();
+        }
+    }
+    private void writeMonth(WritableWorkbook wwb){
+        try {
+            WritableSheet sheet = wwb.createSheet("月結資訊", 4);
+            String[] title = {"月", "信封袋Id","月結Id"};
+            Label label;
+            for (int i = 0; i < title.length; i++) {
+                label = new Label(i, 0, title[i]);
+                sheet.addCell(label);
+            }
+            List<MonthHistory> monthHistories = LoadDataSingleton.getInstance().getMonthHistoryList();
+            MonthHistory monthHistory;
+            for (int i = 0; i < monthHistories.size(); i++) {
+                monthHistory = monthHistories.get(i);
+                Label monthName = new Label(0, i + 1, monthHistory.getName());
+                Label monthEnvelopeId = new Label(1, i + 1, monthHistory.getEnvelopId());
+                Label monthId = new Label(2, i + 1, monthHistory.getId());
+                sheet.addCell(monthName);
+                sheet.addCell(monthEnvelopeId);
+                sheet.addCell(monthId);
             }
         } catch (WriteException writeException) {
             writeException.printStackTrace();

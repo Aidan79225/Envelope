@@ -124,7 +124,7 @@ public class AccountDAO {
     public List<Account> getAll(String tableName) {
         List<Account> result = new ArrayList<>();
         Cursor cursor = db.query(
-                TABLE_NAME, null, null, null, null, null, null, null);
+                tableName, null, null, null, null, null, null, null);
 
         while (cursor.moveToNext()) {
             try {

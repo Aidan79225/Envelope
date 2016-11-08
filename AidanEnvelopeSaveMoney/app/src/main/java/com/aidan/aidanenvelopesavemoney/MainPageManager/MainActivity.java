@@ -19,9 +19,13 @@ import com.aidan.aidanenvelopesavemoney.AccountList.AccountListFragment;
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
+import com.aidan.aidanenvelopesavemoney.DataBase.MonthHistoryDAO;
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.EnvelopeList.EnvelopeListFragment;
+import com.aidan.aidanenvelopesavemoney.HistoryList.HistoryMonthFragment;
 import com.aidan.aidanenvelopesavemoney.Information.InformationFragment;
+import com.aidan.aidanenvelopesavemoney.Interface.OnBackPressedListener;
+import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Constants;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
@@ -38,13 +42,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements TabBar.TabBarListener {
     private RelativeLayout fragmentContainerRelativeLayout;
     private TabBar tabBar;
-
+    List<Fragment> fragmentList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         EnvelopeDAO.init(getApplicationContext());
         AccountDAO.init(getApplicationContext());
+        MonthHistoryDAO.init(getApplicationContext());
         LoadDataSingleton.getInstance().loadFromDB();
         setTabBar();
     }
@@ -75,10 +80,14 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
                 new String[]{
                         getResources().getString(R.string.envelop),
                         getResources().getString(R.string.account),
-                        getResources().getString(R.string.information)},
+                        getResources().getString(R.string.information),
+                        getResources().getString(R.string.history),
+                        getResources().getString(R.string.history_account)},
                 new int[]{
                         R.mipmap.envelop3,
                         R.mipmap.envelop,
+                        R.mipmap.envelop2,
+                        R.mipmap.envelop2,
                         R.mipmap.envelop2});
         tabBar.setTabBarListener(this);
     }
@@ -97,6 +106,14 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         Fragment fragment = AccountListFragment.newInstance(LoadDataSingleton.getInstance().getAccountList());
         loadFragment(fragment);
     }
+    public void loadHistoryMonthListFragment() {
+        Fragment fragment = new HistoryMonthFragment();
+        loadFragment(fragment);
+    }
+    public void loadHistoryAccountListFragment() {
+        Fragment fragment = AccountListFragment.newInstance(LoadDataSingleton.getInstance().getHistoryAccountList());
+        loadFragment(fragment);
+    }
 
     public void loadInformationFragment() {
         Fragment fragment = InformationFragment.newInstance();
@@ -112,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         }
         transaction.replace(R.id.fragmentContainerRelativeLayout, fragment, fragment.getClass().getName());
         transaction.commit();
+        fragmentList.add(fragment);
     }
 
     @Override
@@ -125,6 +143,12 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
                 break;
             case 2:
                 loadInformationFragment();
+                break;
+            case 3:
+                loadHistoryMonthListFragment();
+                break;
+            case 4:
+                loadHistoryAccountListFragment();
                 break;
             default:
                 break;
@@ -178,16 +202,10 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         new Thread(new Runnable() {
             @Override
             public void run() {
-//                List<Envelope> envelopes = new ArrayList<>();
-//                envelopes.addAll(LoadDataSingleton.getInstance().getEnvelopeList());
-//                for(Envelope envelope :envelopes){
-//                    envelope.tobeNewEnvelope();
-//                }
-//                sendBroadcast(new Intent(Constants.envelopeRefresh));
-
-
-                MonthHistory monthHistory = new MonthHistory();
-
+                createMonth();
+                clearEnvelope();
+                clearAccounts();
+                sendBroadcast(new Intent(Constants.envelopeRefresh));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -196,6 +214,41 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
                 });
             }
         }).start();
+    }
+    public void createMonth(){
+        MonthHistory monthHistory = new MonthHistory();
+        monthHistory.setEnvelops(LoadDataSingleton.getInstance().getEnvelopeList());
+        LoadDataSingleton.getInstance().saveMonthAndEnvelope(monthHistory);
 
+    }
+    public void clearEnvelope(){
+        List<Envelope> envelopes = new ArrayList<>();
+        envelopes.addAll(LoadDataSingleton.getInstance().getEnvelopeList());
+        for(Envelope envelope :envelopes){
+            envelope.tobeNewEnvelope();
+        }
+    }
+    public void clearAccounts(){
+        List<Account> accountList = LoadDataSingleton.getInstance().getAccountList();
+        Singleton.log("accountList :" + accountList.size());
+        int i=0;
+        for(Account account : accountList){
+            AccountDAO.getInstance().insert(account,MonthHistoryDAO.accountTableName);
+            Singleton.log("account index :" + i++);
+        }
+        accountList.clear();
+        AccountDAO.getInstance().removeAll();
+    }
+    @Override
+    public void onBackPressed() {
+        if (fragmentList != null) {
+            for(Fragment fragment : fragmentList){
+                if(fragment != null)
+                if(fragment instanceof OnBackPressedListener){
+                    if(((OnBackPressedListener)fragment).onBackPressed())return;
+                }
+            }
+        }
+        super.onBackPressed();
     }
 }

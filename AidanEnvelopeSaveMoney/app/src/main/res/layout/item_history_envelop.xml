@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemRootLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="horizontal"
+    android:weightSum="4">
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/envelop_name"
+        android:textColor="@color/word"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/maxTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/envelop_max"
+        android:textColor="@color/word"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/costTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/envelop_cost"
+        android:textColor="@color/word"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/surplusTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/envelop_rest"
+        android:textColor="@color/word"
+        android:textSize="16sp" />
+
+</LinearLayout>

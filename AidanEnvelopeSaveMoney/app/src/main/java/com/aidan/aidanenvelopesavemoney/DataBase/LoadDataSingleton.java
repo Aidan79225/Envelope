@@ -3,6 +3,7 @@ package com.aidan.aidanenvelopesavemoney.DataBase;
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
+import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,8 @@ public class LoadDataSingleton {
     private List<Envelope> historyEnvelopeList = new ArrayList<>();
     private HashMap<String, Envelope> envelopeHashMap = new HashMap<>();
     private List<Account> accountList = new ArrayList<>();
+    private List<Account> historyAccountList = new ArrayList<>();
+    private List<MonthHistory> monthHistoryList = new ArrayList<>();
     private static LoadDataSingleton loadDataSingleton;
 
     public static LoadDataSingleton getInstance() {
@@ -31,6 +34,12 @@ public class LoadDataSingleton {
     }
     public List<Envelope> getHistoryEnvelopeList() {
         return historyEnvelopeList;
+    }
+    public List<Account> getHistoryAccountList() {
+        return historyAccountList;
+    }
+    public List<MonthHistory> getMonthHistoryList() {
+        return monthHistoryList;
     }
 
     public List<Account> getAccountList() {
@@ -46,6 +55,10 @@ public class LoadDataSingleton {
         if (!AccountDAO.getInstance().update(account))
             AccountDAO.getInstance().insert(account);
     }
+    public void saveAccount(Account account,String tableName) {
+        if (!AccountDAO.getInstance().update(account,tableName))
+            AccountDAO.getInstance().insert(account,tableName);
+    }
 
     public void saveEnvelope(Envelope envelope) {
         if (!EnvelopeDAO.getInstance().update(envelope))
@@ -54,6 +67,19 @@ public class LoadDataSingleton {
     public void saveEnvelope(Envelope envelope,String tableName) {
         if (!EnvelopeDAO.getInstance().update(envelope,tableName))
             EnvelopeDAO.getInstance().insert(envelope,tableName);
+    }
+    public void saveMonth(MonthHistory monthHistory) {
+        if (!MonthHistoryDAO.getInstance().update(monthHistory))
+            MonthHistoryDAO.getInstance().insert(monthHistory);
+
+    }
+    public void saveMonthAndEnvelope(MonthHistory monthHistory) {
+        if (!MonthHistoryDAO.getInstance().update(monthHistory))
+            MonthHistoryDAO.getInstance().insert(monthHistory);
+        List<Envelope> envelopes = monthHistory.getEnvelopeList();
+        for(Envelope envelope : envelopes){
+            saveEnvelope(envelope,MonthHistoryDAO.envelopeTableName);
+        }
     }
 
     public void deleteEnvelope(Envelope envelope) {
@@ -85,6 +111,9 @@ public class LoadDataSingleton {
         try {
             envelopeList = EnvelopeDAO.getInstance().getAll();
             accountList = AccountDAO.getInstance().getAll();
+            monthHistoryList = MonthHistoryDAO.getInstance().getAll();
+            historyEnvelopeList = EnvelopeDAO.getInstance().getAll(MonthHistoryDAO.envelopeTableName);
+            historyAccountList = AccountDAO.getInstance().getAll(MonthHistoryDAO.accountTableName);
             Collections.reverse(accountList);
             for (Envelope envelope : envelopeList) {
                 envelopeHashMap.put(envelope.getId(), envelope);

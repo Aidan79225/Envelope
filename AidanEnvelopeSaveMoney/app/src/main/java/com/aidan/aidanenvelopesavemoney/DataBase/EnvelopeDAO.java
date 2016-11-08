@@ -158,7 +158,7 @@ public class EnvelopeDAO {
     }
 
     // 把Cursor目前的資料包裝為物件
-    public Envelope getRecord(Cursor cursor) {
+    public static Envelope getRecord(Cursor cursor) {
         // 準備回傳結果用的物件
         Envelope result = new Envelope();
 

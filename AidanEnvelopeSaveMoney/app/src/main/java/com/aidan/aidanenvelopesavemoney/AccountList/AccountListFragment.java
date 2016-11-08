@@ -91,12 +91,13 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
 
     public void showDetailFragment(Account account) {
         AccountDetailFragment fragment = AccountDetailFragment.newInstance(account);
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.fragmentContainerRelativeLayout, fragment, AccountDetailFragment.class.getName());
-        transaction.hide(this);
-        transaction.addToBackStack(this.getClass().getName());
-        transaction.commit();
+        fragment.show(getFragmentManager(),AccountDetailFragment.class.getName());
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.add(R.id.fragmentContainerRelativeLayout, fragment, AccountDetailFragment.class.getName());
+//        transaction.hide(this);
+//        transaction.addToBackStack(this.getClass().getName());
+//        transaction.commit();
     }
 
     AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {

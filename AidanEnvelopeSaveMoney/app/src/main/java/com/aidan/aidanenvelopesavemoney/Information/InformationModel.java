@@ -25,4 +25,5 @@ public class InformationModel {
     public List<Account> getAccountList() {
         return accountList;
     }
+
 }

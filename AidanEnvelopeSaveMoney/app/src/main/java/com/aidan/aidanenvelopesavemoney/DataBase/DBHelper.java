@@ -11,7 +11,7 @@ import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-    private final static int DBVersion = 3; //<-- 版本
+    private final static int DBVersion = 4; //<-- 版本
     private final static String DBName = "SaveMoney.db";  //<-- db name
     private static SQLiteDatabase database;
 
@@ -36,6 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(EnvelopeDAO.CREATE_TABLE);
         db.execSQL(AccountDAO.CREATE_TABLE);
+        db.execSQL(MonthHistoryDAO.CREATE_TABLE);
         db.execSQL(EnvelopeDAO.getMonthCreateTable(MonthHistoryDAO.envelopeTableName));
         db.execSQL(AccountDAO.getMonthCreateTable(MonthHistoryDAO.accountTableName));
     }

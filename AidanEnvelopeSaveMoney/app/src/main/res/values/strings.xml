@@ -12,6 +12,8 @@
     <string name="envelop">信封袋 </string>
     <string name="account">帳務 </string>
     <string name="information">資訊 </string>
+    <string name="history">歷史資料</string>
+    <string name="history_account">歷史帳務</string>
     <!--AccountListFragment-->
 
     <!--EnvelopeListFragment-->
@@ -20,6 +22,7 @@
     <string name="new_account">新增帳務</string>
     <string name="envelop_max">信封上限</string>
     <string name="envelop_rest">信封剩餘</string>
+    <string name="envelop_cost">信封花費</string>
     <string name="cost">花費</string>
     <string name="ok">確定</string>
     <string name="cancel">取消</string>
@@ -40,4 +43,5 @@
     <string name="fail">失敗</string>
     <string name="bill">月結</string>
     <string name="bill_content">\t\t月結將會清除所有信封袋裡的帳務</string>
+    <string name="month_save_money">此月節省花費</string>
 </resources>
