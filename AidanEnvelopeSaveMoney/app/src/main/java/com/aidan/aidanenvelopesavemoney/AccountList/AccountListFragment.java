@@ -90,7 +90,7 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
     }
 
     public void showDetailFragment(Account account) {
-        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account);
+        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account,false);
         fragment.show(getFragmentManager(),AccountDetailFragment.class.getName());
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction transaction = fragmentManager.beginTransaction();

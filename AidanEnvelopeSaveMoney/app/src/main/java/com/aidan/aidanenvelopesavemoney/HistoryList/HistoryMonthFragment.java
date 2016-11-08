@@ -75,7 +75,7 @@ public class HistoryMonthFragment extends DialogFragment implements HistoryMonth
     }
 
     public void showDetailFragment(Account account) {
-        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account);
+        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account,true);
         fragment.show(getFragmentManager(),AccountDetailFragment.class.getName());
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction transaction = fragmentManager.beginTransaction();

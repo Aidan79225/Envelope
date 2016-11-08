@@ -31,12 +31,20 @@ public class AccountDetailFragment extends DialogFragment implements AccountDeta
     LinearLayout photoLinearLayout;
     Button changeButton;
     boolean cannotModify = false;
-    public static AccountDetailFragment newInstance(Account account) {
+
+    public static AccountDetailFragment newInstance(Account account,boolean flag) {
         AccountDetailFragment fragment = new AccountDetailFragment();
         fragment.presenter = new AccountDetailPresenter(fragment);
         fragment.presenter.setData(account);
-        fragment.cannotModify = true;
+        fragment.cannotModify = flag;
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle s) {
+        super.onCreate(s);
+        setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+
     }
 
     @Override
@@ -57,7 +65,7 @@ public class AccountDetailFragment extends DialogFragment implements AccountDeta
         photoImageView = (ImageView) rootView.findViewById(R.id.photoImageView);
         photoLinearLayout = (LinearLayout) rootView.findViewById(R.id.photoLinearLayout);
         changeButton = (Button) rootView.findViewById(R.id.changeButton);
-        if(cannotModify)changeButton.setVisibility(View.GONE);
+        if (cannotModify) changeButton.setVisibility(View.GONE);
     }
 
     @Override
