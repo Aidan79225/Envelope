@@ -19,13 +19,20 @@ import com.aidan.aidanenvelopesavemoney.AccountList.AccountListFragment;
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
+import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.EnvelopeList.EnvelopeListFragment;
 import com.aidan.aidanenvelopesavemoney.Information.InformationFragment;
 import com.aidan.aidanenvelopesavemoney.Model.Constants;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
+import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
 import com.aidan.aidanenvelopesavemoney.R;
 
+
 import java.util.ArrayList;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TabBar.TabBarListener {
@@ -171,16 +178,20 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Envelope> envelopes = new ArrayList<>();
-                envelopes.addAll(LoadDataSingleton.getInstance().getEnvelopeList());
-                for(Envelope envelope :envelopes){
-                    envelope.tobeNewEnvelope();
-                }
-                sendBroadcast(new Intent(Constants.envelopeRefresh));
+//                List<Envelope> envelopes = new ArrayList<>();
+//                envelopes.addAll(LoadDataSingleton.getInstance().getEnvelopeList());
+//                for(Envelope envelope :envelopes){
+//                    envelope.tobeNewEnvelope();
+//                }
+//                sendBroadcast(new Intent(Constants.envelopeRefresh));
+
+
+                MonthHistory monthHistory = new MonthHistory();
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(),R.string.complete,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.complete, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

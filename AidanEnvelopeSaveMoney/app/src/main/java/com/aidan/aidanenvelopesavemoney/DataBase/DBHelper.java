@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
+
 /**
  * Created by Aidan on 2016/10/2.
  */
@@ -34,12 +36,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(EnvelopeDAO.CREATE_TABLE);
         db.execSQL(AccountDAO.CREATE_TABLE);
+        db.execSQL(EnvelopeDAO.getMonthCreateTable(MonthHistoryDAO.envelopeTableName));
+        db.execSQL(AccountDAO.getMonthCreateTable(MonthHistoryDAO.accountTableName));
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + EnvelopeDAO.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + AccountDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MonthHistoryDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MonthHistoryDAO.envelopeTableName);
+        db.execSQL("DROP TABLE IF EXISTS " + MonthHistoryDAO.accountTableName);
         onCreate(db);
     }
 }

@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Aidan on 2016/10/2.
+ * Created by s352431 on 2016/10/28.
  */
-
-public class AccountDAO {
+public class MonthHistoryDAO {
+    public static final String envelopeTableName = "HistoryEnvelope";
+    public static final String accountTableName = "HistoryAccount";
     // 表格名稱
-    public static final String TAG = "AccountDAO";
-    public static final String TABLE_NAME = "Account";
+    public static final String TAG = "MonthHistoryDAO";
+    public static final String TABLE_NAME = "MonthHistory";
 
     // 編號表格欄位名稱，固定不變
     public static final String KeyID = "id";
@@ -41,19 +42,19 @@ public class AccountDAO {
                     EnvelopIdColumn + " TEXT NOT NULL, " +
                     CostColumn + " INTEGER NOT NULL)";
     private SQLiteDatabase db;
-    private static AccountDAO accountDAO;
+    private static MonthHistoryDAO monthHistoryDAO;
 
     public static void init(Context context) {
         Singleton.log("AccountDAO init");
-        accountDAO = new AccountDAO(context);
+        monthHistoryDAO = new MonthHistoryDAO(context);
     }
 
-    public static AccountDAO getInstance() {
-        if (accountDAO == null) return null;
-        return accountDAO;
+    public static MonthHistoryDAO getInstance() {
+        if (monthHistoryDAO == null) return null;
+        return monthHistoryDAO;
     }
 
-    private AccountDAO(Context context) {
+    private MonthHistoryDAO(Context context) {
         db = DBHelper.getDatabase(context);
     }
 
@@ -63,10 +64,6 @@ public class AccountDAO {
 
     // 新增參數指定的物件
     public Account insert(Account item) {
-        return insert(item,TABLE_NAME);
-    }
-    // 新增參數指定的物件
-    public Account insert(Account item,String tableName) {
         // 建立準備新增資料的ContentValues物件
         Singleton.log("AccountDAO insert");
         ContentValues cv = new ContentValues();
@@ -77,19 +74,16 @@ public class AccountDAO {
         cv.put(DateColumn, item.getTime());
         cv.put(EnvelopIdColumn, item.getEnvelopId());
 
-        long id = db.insert(tableName, null, cv);
+        long id = db.insert(TABLE_NAME, null, cv);
 
         // 設定編號
         item.setIndex(id);
         // 回傳結果
         return item;
     }
+
     // 修改參數指定的物件
     public boolean update(Account item) {
-        return update(item,TABLE_NAME);
-    }
-    // 修改參數指定的物件
-    public boolean update(Account item,String tableName) {
         // 建立準備修改資料的ContentValues物件
         ContentValues cv = new ContentValues();
 
@@ -101,27 +95,23 @@ public class AccountDAO {
         cv.put(ObjectIdColumn, item.getId());
         cv.put(DateColumn, item.getTime());
         cv.put(EnvelopIdColumn, item.getEnvelopId());
-
+        // 設定修改資料的條件為編號
+        // 格式為「欄位名稱＝資料」
         String where = KeyID + "=" + item.getIndex();
-        long test = db.update(tableName, cv, where, null);
-
+        long test = db.update(TABLE_NAME, cv, where, null);
+        // 執行修改資料並回傳修改的資料數量是否成功
+        Log.e(TAG, test + "");
         return test > 0;
     }
-    public boolean delete(long id) {
-        return delete(id,TABLE_NAME);
-    }
 
-    public boolean delete(long id,String tableName) {
+    public boolean delete(long id) {
         // 設定條件為編號，格式為「欄位名稱=資料」
         String where = KeyID + "=" + id;
         // 刪除指定編號資料並回傳刪除是否成功
-        return db.delete(tableName, where, null) > 0;
+        return db.delete(TABLE_NAME, where, null) > 0;
     }
 
     public List<Account> getAll() {
-        return getAll(TABLE_NAME);
-    }
-    public List<Account> getAll(String tableName) {
         List<Account> result = new ArrayList<>();
         Cursor cursor = db.query(
                 TABLE_NAME, null, null, null, null, null, null, null);
@@ -143,12 +133,9 @@ public class AccountDAO {
     }
 
     public List<Account> getEnvelopsAccount(String envelopName) {
-        return getEnvelopsAccount(envelopName,TABLE_NAME);
-    }
-    public List<Account> getEnvelopsAccount(String envelopName,String tableName) {
         List<Account> result = new ArrayList<>();
         Cursor cursor = db.query(
-                tableName, null, EnvelopIdColumn + "= \"" + envelopName + "\"", null, null, null, null, null);
+                TABLE_NAME, null, EnvelopIdColumn + "= \"" + envelopName + "\"", null, null, null, null, null);
         while (cursor.moveToNext()) {
             try {
                 result.add(getRecord(cursor));
@@ -162,18 +149,16 @@ public class AccountDAO {
         cursor.close();
         return result;
     }
+
     // 取得指定編號的資料物件
     public Account get(long id) {
-        return get(id,TABLE_NAME);
-    }
-    public Account get(long id,String tableName) {
         // 準備回傳結果用的物件
         Account item = null;
         // 使用編號為查詢條件
         String where = KeyID + "=" + id;
         // 執行查詢
         Cursor result = db.query(
-                tableName, null, where, null, null, null, null, null);
+                TABLE_NAME, null, where, null, null, null, null, null);
 
         // 如果有查詢結果
         if (result.moveToFirst()) {
@@ -186,7 +171,6 @@ public class AccountDAO {
         // 回傳結果
         return item;
     }
-
 
     // 把Cursor目前的資料包裝為物件
     public Account getRecord(Cursor cursor) {
@@ -206,19 +190,7 @@ public class AccountDAO {
     }
 
     public void removeAll() {
-        removeAll(TABLE_NAME);
+        db.delete(TABLE_NAME, null, null);
     }
-    public void removeAll(String tableName) {
-        db.delete(tableName, null, null);
-    }
-    public static String getMonthCreateTable(String tableName){
-        return "CREATE TABLE " + tableName + " (" +
-                KeyID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                NameColumn + " TEXT NOT NULL, " +
-                CommentColumn + " TEXT NOT NULL, " +
-                ObjectIdColumn + " TEXT NOT NULL, " +
-                DateColumn + " INTEGER NOT NULL, " +
-                EnvelopIdColumn + " TEXT NOT NULL, " +
-                CostColumn + " INTEGER NOT NULL)";
-    }
+
 }

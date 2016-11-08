@@ -15,6 +15,7 @@ import java.util.List;
 
 public class LoadDataSingleton {
     private List<Envelope> envelopeList = new ArrayList<>();
+    private List<Envelope> historyEnvelopeList = new ArrayList<>();
     private HashMap<String, Envelope> envelopeHashMap = new HashMap<>();
     private List<Account> accountList = new ArrayList<>();
     private static LoadDataSingleton loadDataSingleton;
@@ -27,6 +28,9 @@ public class LoadDataSingleton {
 
     public List<Envelope> getEnvelopeList() {
         return envelopeList;
+    }
+    public List<Envelope> getHistoryEnvelopeList() {
+        return historyEnvelopeList;
     }
 
     public List<Account> getAccountList() {
@@ -46,6 +50,10 @@ public class LoadDataSingleton {
     public void saveEnvelope(Envelope envelope) {
         if (!EnvelopeDAO.getInstance().update(envelope))
             EnvelopeDAO.getInstance().insert(envelope);
+    }
+    public void saveEnvelope(Envelope envelope,String tableName) {
+        if (!EnvelopeDAO.getInstance().update(envelope,tableName))
+            EnvelopeDAO.getInstance().insert(envelope,tableName);
     }
 
     public void deleteEnvelope(Envelope envelope) {
@@ -79,7 +87,6 @@ public class LoadDataSingleton {
             accountList = AccountDAO.getInstance().getAll();
             Collections.reverse(accountList);
             for (Envelope envelope : envelopeList) {
-//                envelope.setAccountList(AccountDAO.getInstance().getEnvelopsAccount(envelope.getId()));
                 envelopeHashMap.put(envelope.getId(), envelope);
                 for (Account account : accountList) {
                     if (account.getEnvelopId().equals(envelope.getId()))

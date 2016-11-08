@@ -3,9 +3,11 @@ package com.aidan.aidanenvelopesavemoney.Information;
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
+import com.aidan.aidanenvelopesavemoney.DataBase.MonthHistoryDAO;
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
+import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,6 +89,31 @@ public class ReadExcel {
         for(Account account : accountList){
             LoadDataSingleton.getInstance().saveAccount(account);
         }
+    }
+    public void loadHistoryEnvelopes(Workbook w) {
+        Sheet sheet = w.getSheet(2);
+        List<Envelope> envelopeList = new ArrayList<>();
+        for (int i = 0; i < sheet.getRows(); i++) {
+            String temp = "";
+            for (int j = 0; j < sheet.getColumns(); j++) {
+                Cell cell = sheet.getCell(j, i);
+                temp += "," + cell.getContents();
+            }
+            Singleton.log(temp);
+            if (i == 0) continue;
+            Envelope envelope = new Envelope();
+            envelope.setName(sheet.getCell(0, i).getContents());
+            envelope.setMax(Integer.valueOf(sheet.getCell(1, i).getContents()));
+            envelope.setCost(Integer.valueOf(sheet.getCell(2, i).getContents()));
+            envelope.setId(sheet.getCell(3, i).getContents());
+            envelopeList.add(envelope);
+        }
+        LoadDataSingleton.getInstance().getHistoryEnvelopeList().clear();
+        EnvelopeDAO.getInstance().removeAll(MonthHistoryDAO.envelopeTableName);
+        for(Envelope envelope : envelopeList){
+            LoadDataSingleton.getInstance().saveEnvelope(envelope, MonthHistoryDAO.envelopeTableName);
+        }
+
     }
 
 }

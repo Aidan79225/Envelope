@@ -48,6 +48,8 @@ public class WriteExcel {
             wwb = Workbook.createWorkbook(file);
             writeEnvelope(wwb);
             writeAccount(wwb);
+            writeHistoryEnvelope(wwb);
+            writeHistoryAccount(wwb);
             wwb.write();
             wwb.close();
         } catch (WriteException writeException) {
@@ -59,6 +61,7 @@ public class WriteExcel {
 
     private void writeEnvelope(WritableWorkbook wwb) {
         try {
+
             WritableSheet sheet = wwb.createSheet("信封袋", 0);
             String[] title = {"信封名稱", "信封上限", "信封花費", "信封袋Id"};
             Label label;
@@ -117,27 +120,66 @@ public class WriteExcel {
             writeException.printStackTrace();
         }
     }
-
-
-    public static WritableCellFormat getHeader() {
-        WritableFont font = new WritableFont(WritableFont.TIMES, 10,
-                WritableFont.BOLD);// 定义字体
+    private void writeHistoryEnvelope(WritableWorkbook wwb) {
         try {
-            font.setColour(Colour.BLUE);// 蓝色字体
-        } catch (WriteException e1) {
-            e1.printStackTrace();
+
+            WritableSheet sheet = wwb.createSheet("歷史信封袋", 2);
+            String[] title = {"信封名稱", "信封上限", "信封花費", "信封袋Id"};
+            Label label;
+            for (int i = 0; i < title.length; i++) {
+                label = new Label(i, 0, title[i]);
+                sheet.addCell(label);
+            }
+            List<Envelope> envelopeList = model.getEnvelopeList();
+            Envelope envelope;
+            for (int i = 0; i < envelopeList.size(); i++) {
+                envelope = envelopeList.get(i);
+                Label envelopeName = new Label(0, i + 1, envelope.getName());
+                Label envelopeMax = new Label(1, i + 1, envelope.getMax() + "");
+                Label envelopeCost = new Label(2, i + 1, envelope.getCost() + "");
+                Label envelopeId = new Label(3, i + 1, envelope.getId());
+                sheet.addCell(envelopeName);
+                sheet.addCell(envelopeMax);
+                sheet.addCell(envelopeCost);
+                sheet.addCell(envelopeId);
+            }
+        } catch (WriteException writeException) {
+            writeException.printStackTrace();
         }
-        WritableCellFormat format = new WritableCellFormat(font);
-        try {
-            format.setAlignment(jxl.format.Alignment.CENTRE);// 左右居中
-            format.setVerticalAlignment(jxl.format.VerticalAlignment.CENTRE);// 上下居中
-            format.setBorder(Border.ALL, BorderLineStyle.THIN,
-                    Colour.BLACK);// 黑色边框
-            format.setBackground(Colour.YELLOW);// 黄色背景
-        } catch (WriteException e) {
-            e.printStackTrace();
-        }
-        return format;
     }
+    private void writeHistoryAccount(WritableWorkbook wwb) {
+        try {
+            WritableSheet sheet = wwb.createSheet("歷史帳務", 3);
+            String[] title = {"帳務名稱", "帳務花費", "帳務日期", "帳務Id", "信封名稱", "信封Id", "帳務時間"};
+            Label label;
+            for (int i = 0; i < title.length; i++) {
+                label = new Label(i, 0, title[i]);
+                sheet.addCell(label);
+            }
+            List<Account> accountList = model.getAccountList();
+            Account account;
+            for (int i = 0; i < accountList.size(); i++) {
+                account = accountList.get(i);
+                Label accountName = new Label(0, i + 1, account.getComment());
+                Label accountCost = new Label(1, i + 1, account.getCost() + "");
+                Label accountDate = new Label(2, i + 1, account.getDate() + "");
+                Label accountId = new Label(3, i + 1, account.getId());
+                Label envelopeName = new Label(4, i + 1, account.getEnvelopeName());
+                Label envelopeId = new Label(5, i + 1, account.getEnvelopId());
+                Label accountTime = new Label(6, i + 1, account.getTime() + "");
+
+                sheet.addCell(accountName);
+                sheet.addCell(accountCost);
+                sheet.addCell(accountDate);
+                sheet.addCell(accountId);
+                sheet.addCell(envelopeName);
+                sheet.addCell(envelopeId);
+                sheet.addCell(accountTime);
+            }
+        } catch (WriteException writeException) {
+            writeException.printStackTrace();
+        }
+    }
+
 
 }
