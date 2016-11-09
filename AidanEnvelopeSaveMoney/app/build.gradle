@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    compile 'com.droidninja:filepicker:1.0.6'
     compile 'com.google.android.gms:play-services-drive:9.6.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

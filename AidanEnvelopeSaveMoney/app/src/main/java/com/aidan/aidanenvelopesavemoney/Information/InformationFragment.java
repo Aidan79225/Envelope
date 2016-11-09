@@ -1,8 +1,10 @@
 package com.aidan.aidanenvelopesavemoney.Information;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -16,14 +18,24 @@ import android.widget.Toast;
 import com.aidan.aidanenvelopesavemoney.Network.OneDriveService;
 import com.aidan.aidanenvelopesavemoney.R;
 
+import java.util.ArrayList;
+
+import droidninja.filepicker.FilePickerActivity;
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
+
 /**
  * Created by s352431 on 2016/10/18.
  */
 public class InformationFragment extends DialogFragment implements InformationContract.view {
     InformationContract.presenter presenter;
     ViewGroup rootView;
-    Button createExcelButton, readExcelButton,uploadToOneDriveButton,downFromOneDriveButton;
-    private TextView monthCostTextView, monthBudgetTextView, monthSurplusTextView,todayCostTextView;
+    Button createExcelButton, readExcelButton, uploadToOneDriveButton, downFromOneDriveButton;
+    private TextView monthCostTextView, monthBudgetTextView, monthSurplusTextView, todayCostTextView;
+    ArrayList<String> filePaths = new ArrayList<>();
+    ArrayList<String> docPaths = new ArrayList<>();
+    int type = 0;
+    private static final int readExcelType = 19;
 
     public static InformationFragment newInstance() {
         InformationFragment fragment = new InformationFragment();
@@ -46,15 +58,16 @@ public class InformationFragment extends DialogFragment implements InformationCo
 
     @Override
     public void findView() {
-        downFromOneDriveButton = (Button)rootView.findViewById(R.id.downFromOneDriveButton);
+        downFromOneDriveButton = (Button) rootView.findViewById(R.id.downFromOneDriveButton);
         createExcelButton = (Button) rootView.findViewById(R.id.createExcelButton);
         readExcelButton = (Button) rootView.findViewById(R.id.readExcelButton);
-        uploadToOneDriveButton = (Button)rootView.findViewById(R.id.uploadToOneDriveButton);
+        uploadToOneDriveButton = (Button) rootView.findViewById(R.id.uploadToOneDriveButton);
         monthCostTextView = (TextView) rootView.findViewById(R.id.monthCostTextView);
         monthBudgetTextView = (TextView) rootView.findViewById(R.id.monthBudgetTextView);
         monthSurplusTextView = (TextView) rootView.findViewById(R.id.monthSurplusTextView);
         todayCostTextView = (TextView) rootView.findViewById(R.id.todayCostTextView);
     }
+
     Callback createExcel = new Callback() {
         @Override
         public void todo() {
@@ -68,11 +81,15 @@ public class InformationFragment extends DialogFragment implements InformationCo
     Callback readExcel = new Callback() {
         @Override
         public void todo() {
-            try {
-                presenter.readExcelButtonClick(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + WriteExcel.fileName + ".xls");
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
+            FilePickerBuilder.getInstance().setMaxCount(1)
+                    .setSelectedFiles(filePaths)
+                    .setActivityTheme(R.style.AppTheme);
+            type = readExcelType;
+            Intent intent = new Intent(getActivity(), FilePickerActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt(FilePickerConst.EXTRA_PICKER_TYPE, FilePickerConst.DOC_PICKER);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, FilePickerConst.REQUEST_CODE_DOC);
         }
     };
     Callback upload = new Callback() {
@@ -103,29 +120,30 @@ public class InformationFragment extends DialogFragment implements InformationCo
         createExcelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(R.string.create_excel,R.string.create_excel,createExcel);
+                showDialog(R.string.create_excel, R.string.create_excel, createExcel);
             }
         });
         readExcelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(R.string.read_excel,R.string.read_excel,readExcel);
+                showDialog(R.string.read_excel, R.string.read_excel, readExcel);
             }
         });
         uploadToOneDriveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(R.string.upload_to_one_drive,R.string.upload_to_one_drive,upload);
+                showDialog(R.string.upload_to_one_drive, R.string.upload_to_one_drive, upload);
             }
         });
         downFromOneDriveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(R.string.download_from_one_drive,R.string.download_from_one_drive,download);
+                showDialog(R.string.download_from_one_drive, R.string.download_from_one_drive, download);
             }
         });
     }
-    private void showDialog(int title,int msg, final Callback callback){
+
+    private void showDialog(int title, int msg, final Callback callback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         AlertDialog dialog = builder.create();
         builder.setTitle(title);
@@ -146,7 +164,7 @@ public class InformationFragment extends DialogFragment implements InformationCo
     }
 
     @Override
-    public void setMonthInformation(int budget, int cost, int sup,int today) {
+    public void setMonthInformation(int budget, int cost, int sup, int today) {
         monthBudgetTextView.setText(String.valueOf(budget));
         monthCostTextView.setText(String.valueOf(cost));
         monthSurplusTextView.setText(String.valueOf(sup));
@@ -158,11 +176,33 @@ public class InformationFragment extends DialogFragment implements InformationCo
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
             }
         });
     }
-    interface Callback{
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FilePickerConst.REQUEST_CODE_DOC:
+                if (resultCode == Activity.RESULT_OK && data != null)
+                    handleChooseDoc(data);
+                break;
+        }
+    }
+
+    private void handleChooseDoc(Intent data) {
+        docPaths.clear();
+        docPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
+        switch (type) {
+            case readExcelType:
+                presenter.readExcelButtonClick(docPaths.get(0));
+                type = 0;
+                break;
+        }
+    }
+
+    interface Callback {
         void todo();
     }
 }

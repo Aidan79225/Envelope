@@ -1,5 +1,6 @@
 package com.aidan.aidanenvelopesavemoney.MainPageManager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -31,18 +32,16 @@ import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
 import com.aidan.aidanenvelopesavemoney.R;
 
-
 import java.util.ArrayList;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import droidninja.filepicker.FilePickerConst;
 
 public class MainActivity extends AppCompatActivity implements TabBar.TabBarListener {
     private RelativeLayout fragmentContainerRelativeLayout;
     private TabBar tabBar;
-    List<Fragment> fragmentList = new ArrayList<>();
+    List<OnBackPressedListener> listeners = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         MonthHistoryDAO.init(getApplicationContext());
         LoadDataSingleton.getInstance().loadFromDB();
         setTabBar();
+        loadEnvelopeListFragment();
     }
 
     @Override
@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
     @Override
     public void onResume() {
         super.onResume();
-        findView();
-        loadEnvelopeListFragment();
     }
 
     public void setTabBar() {
@@ -106,10 +104,12 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         Fragment fragment = AccountListFragment.newInstance(LoadDataSingleton.getInstance().getAccountList());
         loadFragment(fragment);
     }
+
     public void loadHistoryMonthListFragment() {
         Fragment fragment = new HistoryMonthFragment();
         loadFragment(fragment);
     }
+
     public void loadHistoryAccountListFragment() {
         Fragment fragment = AccountListFragment.newInstance(LoadDataSingleton.getInstance().getHistoryAccountList());
         loadFragment(fragment);
@@ -123,13 +123,13 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
     public void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        int backStackCount = getFragmentManager().getBackStackEntryCount();
+        int backStackCount = fragmentManager.getBackStackEntryCount();
         for (int i = 0; i < backStackCount; i++) {
-            fragmentManager.popBackStack();
+            fragmentManager.popBackStackImmediate();
         }
         transaction.replace(R.id.fragmentContainerRelativeLayout, fragment, fragment.getClass().getName());
         transaction.commit();
-        fragmentList.add(fragment);
+//        fragmentList.add(fragment);
     }
 
     @Override
@@ -154,12 +154,14 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
                 break;
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -175,12 +177,13 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
 
         return super.onOptionsItemSelected(item);
     }
-    public void showBillingDialog(){
+
+    public void showBillingDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.dialog_bill_month, null, false);
-        TextView okTextView = (TextView)dialogView.findViewById(R.id.okTextView);
-        TextView cancelTextView = (TextView)dialogView.findViewById(R.id.cancelTextView);
+        TextView okTextView = (TextView) dialogView.findViewById(R.id.okTextView);
+        TextView cancelTextView = (TextView) dialogView.findViewById(R.id.cancelTextView);
         builder.setView(dialogView);
         final AlertDialog dialog = builder.create();
         okTextView.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +201,8 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
         });
         dialog.show();
     }
-    public void billMonth(){
+
+    public void billMonth() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -215,40 +219,38 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
             }
         }).start();
     }
-    public void createMonth(){
+
+    public void createMonth() {
         MonthHistory monthHistory = new MonthHistory();
         monthHistory.setEnvelops(LoadDataSingleton.getInstance().getEnvelopeList());
         LoadDataSingleton.getInstance().saveMonthAndEnvelope(monthHistory);
 
     }
-    public void clearEnvelope(){
+
+    public void clearEnvelope() {
         List<Envelope> envelopes = new ArrayList<>();
         envelopes.addAll(LoadDataSingleton.getInstance().getEnvelopeList());
-        for(Envelope envelope :envelopes){
+        for (Envelope envelope : envelopes) {
             envelope.tobeNewEnvelope();
         }
     }
-    public void clearAccounts(){
+
+    public void clearAccounts() {
         List<Account> accountList = LoadDataSingleton.getInstance().getAccountList();
         Singleton.log("accountList :" + accountList.size());
-        int i=0;
-        for(Account account : accountList){
-            AccountDAO.getInstance().insert(account,MonthHistoryDAO.accountTableName);
+        int i = 0;
+        for (Account account : accountList) {
+            AccountDAO.getInstance().insert(account, MonthHistoryDAO.accountTableName);
             Singleton.log("account index :" + i++);
         }
         accountList.clear();
         AccountDAO.getInstance().removeAll();
     }
+
     @Override
     public void onBackPressed() {
-        if (fragmentList != null) {
-            for(Fragment fragment : fragmentList){
-                if(fragment != null)
-                if(fragment instanceof OnBackPressedListener){
-                    if(((OnBackPressedListener)fragment).onBackPressed())return;
-                }
-            }
-        }
+        if(BackPressedListenerObservable.getInstance().backPressed())return;
         super.onBackPressed();
     }
+
 }

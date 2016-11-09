@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.aidan.aidanenvelopesavemoney.AccountDetail.AccountDetailFragment;
+import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.R;
 
@@ -25,6 +26,7 @@ import java.util.List;
 public class AccountListFragment extends DialogFragment implements AccountListContract.view {
     ViewGroup rootView;
     AccountListContract.presenter presenter;
+    AccountListAdapter adapter;
     ListView accountListView;
     String title = "";
 
@@ -51,7 +53,13 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         else presenter.start();
         return rootView;
     }
+    @Override
+    public void onDestroy(){
 
+        Singleton.log("AccountListFragment onDestroy");
+
+        super.onDestroy();
+    }
 
     @Override
     public void findView() {
@@ -75,9 +83,8 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
 
     @Override
     public void setAccountListView() {
-        final AccountListAdapter adapter = new AccountListAdapter(getActivity());
-        presenter.setAdapter(adapter);
-        presenter.adapterLoadData();
+        adapter = new AccountListAdapter();
+        presenter.adapterLoadData(adapter);
         accountListView.setAdapter(adapter);
         accountListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,6 +122,7 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 presenter.deleteAccount(position);
+                adapter.notifyDataSetChanged();
             }
         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override

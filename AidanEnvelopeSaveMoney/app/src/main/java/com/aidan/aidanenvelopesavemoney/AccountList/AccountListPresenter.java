@@ -11,7 +11,6 @@ import java.util.List;
 public class AccountListPresenter implements AccountListContract.presenter {
     AccountListContract.view view;
     AccountListModel model;
-    AccountListAdapter adapter;
 
     public AccountListPresenter(AccountListContract.view view, List<Account> accountList) {
         this.view = view;
@@ -30,19 +29,20 @@ public class AccountListPresenter implements AccountListContract.presenter {
 
     }
 
-    @Override
-    public void setAdapter(AccountListAdapter adapter) {
-        this.adapter = adapter;
-    }
 
     @Override
-    public void adapterLoadData() {
+    public void adapterLoadData(AccountListAdapter adapter) {
         adapter.setAccountList(model.getAccountList());
     }
 
     @Override
     public void deleteAccount(int position) {
         model.deleteAccount(position);
-        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void destroy() {
+        view = null;
+        model = null;
     }
 }

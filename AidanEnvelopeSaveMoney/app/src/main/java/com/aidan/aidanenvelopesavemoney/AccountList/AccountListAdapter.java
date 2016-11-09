@@ -19,11 +19,6 @@ import java.util.List;
 
 public class AccountListAdapter extends BaseAdapter {
     List<Account> accountList = new ArrayList<>();
-    private Activity context;
-
-    public AccountListAdapter(Activity context) {
-        this.context = context;
-    }
 
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
@@ -48,7 +43,7 @@ public class AccountListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         if (view == null) {
             viewHolder = new ViewHolder();
             view = inflater.inflate(R.layout.item_account, viewGroup, false);

@@ -15,11 +15,11 @@ public interface AccountListContract {
     interface presenter {
         void start();
 
-        void setAdapter(AccountListAdapter adapter);
 
-        void adapterLoadData();
+        void adapterLoadData(AccountListAdapter adapter);
 
         void deleteAccount(int position);
+        void destroy();
     }
 
 }

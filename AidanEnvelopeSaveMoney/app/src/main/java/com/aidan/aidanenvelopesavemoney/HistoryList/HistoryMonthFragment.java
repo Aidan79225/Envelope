@@ -15,9 +15,12 @@ import android.widget.ListView;
 import com.aidan.aidanenvelopesavemoney.AccountDetail.AccountDetailFragment;
 import com.aidan.aidanenvelopesavemoney.AccountList.AccountListAdapter;
 import com.aidan.aidanenvelopesavemoney.Interface.OnBackPressedListener;
+import com.aidan.aidanenvelopesavemoney.MainPageManager.BackPressedListenerObservable;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
 import com.aidan.aidanenvelopesavemoney.R;
+
+import java.util.UUID;
 
 /**
  * Created by s352431 on 2016/11/8.
@@ -26,12 +29,25 @@ public class HistoryMonthFragment extends DialogFragment implements HistoryMonth
     ViewGroup rootView;
     HistoryMonthContract.presenter presenter;
     ListView monthListView;
+    String backPressedId;
+    @Override
+    public void onCreate(Bundle s){
+        backPressedId = UUID.randomUUID().toString();
+        BackPressedListenerObservable.getInstance().register(backPressedId,this);
 
+        super.onCreate(s);
+    }
+    @Override
+    public void onDestroy(){
+        BackPressedListenerObservable.getInstance().unregister(backPressedId);
+        super.onDestroy();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_month_list, container, false);
         presenter = new HistoryMonthPresenter(this);
         presenter.start();
+
         return rootView;
     }
 
@@ -63,7 +79,7 @@ public class HistoryMonthFragment extends DialogFragment implements HistoryMonth
     }
 
     public void envelopeToAccount(HistoryMonthEnvelopeAdapter adapter, int position) {
-        final AccountListAdapter accountListAdapter = new AccountListAdapter(getActivity());
+        final AccountListAdapter accountListAdapter = new AccountListAdapter();
         accountListAdapter.setAccountList(presenter.findEnvelopsAccount(adapter.getItem(position)));
         monthListView.setAdapter(accountListAdapter);
         monthListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
