@@ -95,7 +95,8 @@ public class Envelope {
             cost += account.getCost();
         }
     }
-    public void tobeNewEnvelope(){
+
+    public void tobeNewEnvelope() {
         id = UUID.randomUUID().toString().substring(0, 10);
         accountList = new ArrayList<>();
         cost = 0;

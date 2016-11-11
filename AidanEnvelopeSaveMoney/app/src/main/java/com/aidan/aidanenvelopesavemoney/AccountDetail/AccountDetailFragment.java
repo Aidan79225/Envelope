@@ -32,7 +32,7 @@ public class AccountDetailFragment extends DialogFragment implements AccountDeta
     Button changeButton;
     boolean cannotModify = false;
 
-    public static AccountDetailFragment newInstance(Account account,boolean flag) {
+    public static AccountDetailFragment newInstance(Account account, boolean flag) {
         AccountDetailFragment fragment = new AccountDetailFragment();
         fragment.presenter = new AccountDetailPresenter(fragment);
         fragment.presenter.setData(account);

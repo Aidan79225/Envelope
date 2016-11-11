@@ -54,11 +54,13 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         getActivity().registerReceiver(receiver, new IntentFilter(Constants.envelopeRefresh));
         return rootView;
     }
+
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         getActivity().unregisterReceiver(receiver);
         super.onDestroyView();
     }
+
     @Override
     public void findView() {
         envelopesGridView = (GridView) rootView.findViewById(R.id.envelopesGridView);
@@ -121,6 +123,7 @@ public class EnvelopeListFragment extends Fragment implements EnvelopeListContra
         builder.setView(dialogView);
         dialog.show();
     }
+
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

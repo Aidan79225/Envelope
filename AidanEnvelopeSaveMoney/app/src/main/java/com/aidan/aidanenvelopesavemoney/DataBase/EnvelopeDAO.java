@@ -59,9 +59,10 @@ public class EnvelopeDAO {
 
     // 新增參數指定的物件
     public Envelope insert(Envelope item) {
-        return insert(item,TABLE_NAME);
+        return insert(item, TABLE_NAME);
     }
-    public Envelope insert(Envelope item,String tableName) {
+
+    public Envelope insert(Envelope item, String tableName) {
         // 建立準備新增資料的ContentValues物件
         Singleton.log("EnvelopeDAO insert");
         ContentValues cv = new ContentValues();
@@ -76,11 +77,13 @@ public class EnvelopeDAO {
         // 回傳結果
         return item;
     }
+
     // 修改參數指定的物件
     public boolean update(Envelope item) {
-       return update(item,TABLE_NAME);
+        return update(item, TABLE_NAME);
     }
-    public boolean update(Envelope item,String tableName) {
+
+    public boolean update(Envelope item, String tableName) {
         // 建立準備修改資料的ContentValues物件
         ContentValues cv = new ContentValues();
 
@@ -99,10 +102,12 @@ public class EnvelopeDAO {
         Log.e(TAG, test + "");
         return test > 0;
     }
+
     public boolean delete(long id) {
-        return delete(id,TABLE_NAME);
+        return delete(id, TABLE_NAME);
     }
-    public boolean delete(long id,String tableNmae) {
+
+    public boolean delete(long id, String tableNmae) {
         // 設定條件為編號，格式為「欄位名稱=資料」
         String where = KeyID + "=" + id;
         // 刪除指定編號資料並回傳刪除是否成功
@@ -112,6 +117,7 @@ public class EnvelopeDAO {
     public void removeAll() {
         removeAll(TABLE_NAME);
     }
+
     public void removeAll(String tableName) {
         db.delete(tableName, null, null);
     }
@@ -119,6 +125,7 @@ public class EnvelopeDAO {
     public List<Envelope> getAll() {
         return getAll(TABLE_NAME);
     }
+
     public List<Envelope> getAll(String tableName) {
         List<Envelope> result = new ArrayList<>();
         Cursor cursor = db.query(
@@ -131,12 +138,14 @@ public class EnvelopeDAO {
         cursor.close();
         return result;
     }
+
     // 取得指定編號的資料物件
     public Envelope get(long id) {
 
-        return get(id,TABLE_NAME);
+        return get(id, TABLE_NAME);
     }
-    public Envelope get(long id,String tableName) {
+
+    public Envelope get(long id, String tableName) {
         // 準備回傳結果用的物件
         Envelope item = null;
         // 使用編號為查詢條件
@@ -172,7 +181,7 @@ public class EnvelopeDAO {
     }
 
 
-    public static String getMonthCreateTable(String tableName){
+    public static String getMonthCreateTable(String tableName) {
         return "CREATE TABLE " + tableName + " (" +
                 KeyID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NameColumn + " TEXT NOT NULL, " +

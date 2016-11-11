@@ -12,13 +12,17 @@ import java.util.List;
  * Created by s352431 on 2016/11/8.
  */
 public interface HistoryMonthContract {
-    interface view{
+    interface view {
         void findView();
+
         void setListView();
     }
-    interface presenter{
+
+    interface presenter {
         void start();
+
         Adapter getAdapter(Context context);
+
         List<Account> findEnvelopsAccount(Envelope envelope);
     }
 

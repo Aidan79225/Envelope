@@ -12,7 +12,7 @@ import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 public class AccountDetailModel {
     public void setAccountChange(Account account) {
         Envelope envelope = LoadDataSingleton.getInstance().getEnvelope(account.getEnvelopId());
-        if (envelope == null){
+        if (envelope == null) {
             saveHistory(account);
             return;
         }
@@ -21,7 +21,8 @@ public class AccountDetailModel {
         envelope.refresh();
         LoadDataSingleton.getInstance().saveAccount(account);
     }
-    private void saveHistory(Account account){
+
+    private void saveHistory(Account account) {
         LoadDataSingleton.getInstance().saveAccount(account, MonthHistoryDAO.accountTableName);
     }
 }

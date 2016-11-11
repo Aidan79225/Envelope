@@ -32,12 +32,15 @@ public class LoadDataSingleton {
     public List<Envelope> getEnvelopeList() {
         return envelopeList;
     }
+
     public List<Envelope> getHistoryEnvelopeList() {
         return historyEnvelopeList;
     }
+
     public List<Account> getHistoryAccountList() {
         return historyAccountList;
     }
+
     public List<MonthHistory> getMonthHistoryList() {
         return monthHistoryList;
     }
@@ -55,30 +58,34 @@ public class LoadDataSingleton {
         if (!AccountDAO.getInstance().update(account))
             AccountDAO.getInstance().insert(account);
     }
-    public void saveAccount(Account account,String tableName) {
-        if (!AccountDAO.getInstance().update(account,tableName))
-            AccountDAO.getInstance().insert(account,tableName);
+
+    public void saveAccount(Account account, String tableName) {
+        if (!AccountDAO.getInstance().update(account, tableName))
+            AccountDAO.getInstance().insert(account, tableName);
     }
 
     public void saveEnvelope(Envelope envelope) {
         if (!EnvelopeDAO.getInstance().update(envelope))
             EnvelopeDAO.getInstance().insert(envelope);
     }
-    public void saveEnvelope(Envelope envelope,String tableName) {
-        if (!EnvelopeDAO.getInstance().update(envelope,tableName))
-            EnvelopeDAO.getInstance().insert(envelope,tableName);
+
+    public void saveEnvelope(Envelope envelope, String tableName) {
+        if (!EnvelopeDAO.getInstance().update(envelope, tableName))
+            EnvelopeDAO.getInstance().insert(envelope, tableName);
     }
+
     public void saveMonth(MonthHistory monthHistory) {
         if (!MonthHistoryDAO.getInstance().update(monthHistory))
             MonthHistoryDAO.getInstance().insert(monthHistory);
 
     }
+
     public void saveMonthAndEnvelope(MonthHistory monthHistory) {
         if (!MonthHistoryDAO.getInstance().update(monthHistory))
             MonthHistoryDAO.getInstance().insert(monthHistory);
         List<Envelope> envelopes = monthHistory.getEnvelopeList();
-        for(Envelope envelope : envelopes){
-            saveEnvelope(envelope,MonthHistoryDAO.envelopeTableName);
+        for (Envelope envelope : envelopes) {
+            saveEnvelope(envelope, MonthHistoryDAO.envelopeTableName);
         }
     }
 

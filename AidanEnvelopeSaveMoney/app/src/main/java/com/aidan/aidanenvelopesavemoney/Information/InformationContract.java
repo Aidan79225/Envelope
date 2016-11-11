@@ -9,7 +9,7 @@ public interface InformationContract {
 
         void setViewClick();
 
-        void setMonthInformation(int budget, int cost, int sup,int today);
+        void setMonthInformation(int budget, int cost, int sup, int today);
 
         void showToast(int msg);
     }

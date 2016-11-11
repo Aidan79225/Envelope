@@ -1,10 +1,7 @@
 package com.aidan.aidanenvelopesavemoney.HistoryList;
 
 import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,23 +22,26 @@ import java.util.UUID;
 /**
  * Created by s352431 on 2016/11/8.
  */
-public class HistoryMonthFragment extends DialogFragment implements HistoryMonthContract.view,OnBackPressedListener {
+public class HistoryMonthFragment extends DialogFragment implements HistoryMonthContract.view, OnBackPressedListener {
     ViewGroup rootView;
     HistoryMonthContract.presenter presenter;
     ListView monthListView;
     String backPressedId;
+
     @Override
-    public void onCreate(Bundle s){
+    public void onCreate(Bundle s) {
         backPressedId = UUID.randomUUID().toString();
-        BackPressedListenerObservable.getInstance().register(backPressedId,this);
+        BackPressedListenerObservable.getInstance().register(backPressedId, this);
 
         super.onCreate(s);
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         BackPressedListenerObservable.getInstance().unregister(backPressedId);
         super.onDestroy();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_month_list, container, false);
@@ -62,7 +62,7 @@ public class HistoryMonthFragment extends DialogFragment implements HistoryMonth
         monthListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position > 0) monthToEnvelope(position);
+                if (position > 0) monthToEnvelope(position);
             }
         });
     }
@@ -73,7 +73,7 @@ public class HistoryMonthFragment extends DialogFragment implements HistoryMonth
         monthListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position > 0) envelopeToAccount(adapter, position);
+                if (position > 0) envelopeToAccount(adapter, position);
             }
         });
     }
@@ -85,14 +85,14 @@ public class HistoryMonthFragment extends DialogFragment implements HistoryMonth
         monthListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position > 0) showDetailFragment(accountListAdapter.getItem(position));
+                if (position > 0) showDetailFragment(accountListAdapter.getItem(position));
             }
         });
     }
 
     public void showDetailFragment(Account account) {
-        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account,true);
-        fragment.show(getFragmentManager(),AccountDetailFragment.class.getName());
+        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account, true);
+        fragment.show(getFragmentManager(), AccountDetailFragment.class.getName());
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.add(R.id.fragmentContainerRelativeLayout, fragment, AccountDetailFragment.class.getName());
@@ -100,9 +100,6 @@ public class HistoryMonthFragment extends DialogFragment implements HistoryMonth
 //        transaction.addToBackStack(this.getClass().getName());
 //        transaction.commit();
     }
-
-
-
 
 
     @Override

@@ -1,6 +1,5 @@
 package com.aidan.aidanenvelopesavemoney.Information;
 
-import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.R;
@@ -58,17 +57,17 @@ public class InformationPresenter implements InformationContract.presenter {
         int budget = 0;
         int monthCost = 0;
         int sup;
-        int todayCost =0;
+        int todayCost = 0;
         for (Envelope envelope : envelopes) {
             budget += envelope.getMax();
             monthCost += envelope.getCost();
         }
-        for (Account account : model.getAccountList()){
-            if(account.isToday())
+        for (Account account : model.getAccountList()) {
+            if (account.isToday())
                 todayCost += account.getCost();
         }
         sup = budget - monthCost;
-        view.setMonthInformation(budget, monthCost, sup,todayCost);
+        view.setMonthInformation(budget, monthCost, sup, todayCost);
 
     }
 

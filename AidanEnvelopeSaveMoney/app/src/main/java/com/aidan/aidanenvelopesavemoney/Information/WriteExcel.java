@@ -10,12 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 import jxl.Workbook;
-import jxl.write.Border;
-import jxl.write.BorderLineStyle;
-import jxl.write.Colour;
 import jxl.write.Label;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
@@ -125,6 +120,7 @@ public class WriteExcel {
             writeException.printStackTrace();
         }
     }
+
     private void writeHistoryEnvelope(WritableWorkbook wwb) {
         try {
 
@@ -152,6 +148,7 @@ public class WriteExcel {
             writeException.printStackTrace();
         }
     }
+
     private void writeHistoryAccount(WritableWorkbook wwb) {
         try {
             WritableSheet sheet = wwb.createSheet("歷史帳務", 3);
@@ -185,10 +182,11 @@ public class WriteExcel {
             writeException.printStackTrace();
         }
     }
-    private void writeMonth(WritableWorkbook wwb){
+
+    private void writeMonth(WritableWorkbook wwb) {
         try {
             WritableSheet sheet = wwb.createSheet("月結資訊", 4);
-            String[] title = {"月", "信封袋Id","月結Id"};
+            String[] title = {"月", "信封袋Id", "月結Id"};
             Label label;
             for (int i = 0; i < title.length; i++) {
                 label = new Label(i, 0, title[i]);

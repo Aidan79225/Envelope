@@ -2,8 +2,6 @@ package com.aidan.aidanenvelopesavemoney.AccountList;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,8 +51,9 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
         else presenter.start();
         return rootView;
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
 
         Singleton.log("AccountListFragment onDestroy");
 
@@ -97,8 +96,8 @@ public class AccountListFragment extends DialogFragment implements AccountListCo
     }
 
     public void showDetailFragment(Account account) {
-        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account,false);
-        fragment.show(getFragmentManager(),AccountDetailFragment.class.getName());
+        AccountDetailFragment fragment = AccountDetailFragment.newInstance(account, false);
+        fragment.show(getFragmentManager(), AccountDetailFragment.class.getName());
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.add(R.id.fragmentContainerRelativeLayout, fragment, AccountDetailFragment.class.getName());

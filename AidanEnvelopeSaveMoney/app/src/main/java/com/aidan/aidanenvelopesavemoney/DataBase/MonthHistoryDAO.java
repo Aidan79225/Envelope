@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.aidan.aidanenvelopesavemoney.DevelopTool.Singleton;
-import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 import com.aidan.aidanenvelopesavemoney.Model.MonthHistory;
 
@@ -163,6 +162,7 @@ public class MonthHistoryDAO {
     public void removeAll() {
         db.delete(TABLE_NAME, null, null);
     }
+
     public List<Envelope> getEnvelops(String envelopName) {
         List<Envelope> result = new ArrayList<>();
         Cursor cursor = db.query(

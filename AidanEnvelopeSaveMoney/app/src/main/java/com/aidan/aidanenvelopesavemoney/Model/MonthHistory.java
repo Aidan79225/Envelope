@@ -1,6 +1,5 @@
 package com.aidan.aidanenvelopesavemoney.Model;
 
-import com.aidan.aidanenvelopesavemoney.DataBase.EnvelopeDAO;
 import com.aidan.aidanenvelopesavemoney.DataBase.MonthHistoryDAO;
 
 import org.json.JSONArray;
@@ -18,7 +17,7 @@ public class MonthHistory {
 
     String name;
     String id;
-    int saveMoney =0;
+    int saveMoney = 0;
     long index;
 
 
@@ -31,7 +30,6 @@ public class MonthHistory {
         id = UUID.randomUUID().toString().substring(0, 10);
         name = "歷史資料" + String.valueOf(now.get(Calendar.YEAR)) + String.valueOf(now.get(Calendar.MONTH) + 1);
     }
-
 
 
     public List<Envelope> getEnvelopeList() {
@@ -87,25 +85,28 @@ public class MonthHistory {
     }
 
     private void catchEnvelopeList() {
-        for(String envelopeId : envelopeIdList){
+        for (String envelopeId : envelopeIdList) {
             try {
                 envelopeList.addAll(MonthHistoryDAO.getInstance().getEnvelops(envelopeId));
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
         refreshSaveMoney();
     }
-    private void refreshSaveMoney(){
-        for(Envelope envelope:envelopeList){
-            saveMoney += envelope.getMax()-envelope.getCost();
+
+    private void refreshSaveMoney() {
+        for (Envelope envelope : envelopeList) {
+            saveMoney += envelope.getMax() - envelope.getCost();
         }
     }
-    public int getSaveMoney(){
+
+    public int getSaveMoney() {
         return saveMoney;
     }
-    public void setEnvelops(List<Envelope> e){
+
+    public void setEnvelops(List<Envelope> e) {
         envelopeList.addAll(e);
     }
 

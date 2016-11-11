@@ -20,19 +20,21 @@ public class HistoryMonthAdapter extends BaseAdapter {
     private List<MonthHistory> monthHistoryList;
     private Context context;
     private LayoutInflater inflater;
+
     public HistoryMonthAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         monthHistoryList = LoadDataSingleton.getInstance().getMonthHistoryList();
     }
+
     @Override
     public int getCount() {
-        return monthHistoryList.size()+1;
+        return monthHistoryList.size() + 1;
     }
 
     @Override
     public MonthHistory getItem(int position) {
-        return monthHistoryList.get(position-1);
+        return monthHistoryList.get(position - 1);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class HistoryMonthAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = inflater.inflate(R.layout.item_month, parent, false);
             viewHolder.nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-            viewHolder.saveMoneyTextView = (TextView)view.findViewById(R.id.saveMoneyTextView);
+            viewHolder.saveMoneyTextView = (TextView) view.findViewById(R.id.saveMoneyTextView);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -62,6 +64,7 @@ public class HistoryMonthAdapter extends BaseAdapter {
         }
         return view;
     }
+
     class ViewHolder {
         public TextView nameTextView;
         public TextView saveMoneyTextView;

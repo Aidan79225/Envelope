@@ -80,7 +80,8 @@ public class Account {
     public void setEnvelopId(String envelopId) {
         this.envelopId = envelopId;
     }
-    public boolean isToday(){
+
+    public boolean isToday() {
         return date.getDate() - (new Date().getDate()) == 0;
     }
 }

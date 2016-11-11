@@ -46,12 +46,14 @@ public class OneDriveService {
 
     final IClientConfig config = DefaultClientConfig.createWithAuthenticator(msaAuthenticator);
     private static OneDriveService oneDriveService;
-    private OneDriveService(){
+
+    private OneDriveService() {
 
     }
-    public static OneDriveService getInstance(){
-        synchronized (OneDriveService.class){
-            if(oneDriveService == null){
+
+    public static OneDriveService getInstance() {
+        synchronized (OneDriveService.class) {
+            if (oneDriveService == null) {
                 oneDriveService = new OneDriveService();
             }
         }
@@ -108,16 +110,17 @@ public class OneDriveService {
 
 
     }
-    public void download(Activity activity){
+
+    public void download(Activity activity) {
         InputStream is = null;
         OutputStream os = null;
-        try{
+        try {
             Looper.prepare();
             IOneDriveClient oneDriveClient = new OneDriveClient.Builder()
                     .fromConfig(config)
                     .loginAndBuildClient(activity);
             is = oneDriveClient.getDrive().getItems("root").getChildren().byId(WriteExcel.fileName + ".xls").getContent().buildRequest().get();
-            File file  = new File(fileName);
+            File file = new File(fileName);
             os = new FileOutputStream(file);
             int read = 0;
             byte[] bytes = new byte[1024];
@@ -126,10 +129,10 @@ public class OneDriveService {
                 os.write(bytes, 0, read);
             }
             Toast.makeText(activity, "下載成功", Toast.LENGTH_LONG).show();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(activity, "下載失敗", Toast.LENGTH_LONG).show();
-        }finally {
+        } finally {
             if (is != null) {
                 try {
                     is.close();
@@ -147,7 +150,6 @@ public class OneDriveService {
             }
             Looper.loop();
         }
-
 
 
     }

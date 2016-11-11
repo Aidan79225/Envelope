@@ -1,6 +1,5 @@
 package com.aidan.aidanenvelopesavemoney.MainPageManager;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -34,8 +33,6 @@ import com.aidan.aidanenvelopesavemoney.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import droidninja.filepicker.FilePickerConst;
 
 public class MainActivity extends AppCompatActivity implements TabBar.TabBarListener {
     private RelativeLayout fragmentContainerRelativeLayout;
@@ -249,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements TabBar.TabBarList
 
     @Override
     public void onBackPressed() {
-        if(BackPressedListenerObservable.getInstance().backPressed())return;
+        if (BackPressedListenerObservable.getInstance().backPressed()) return;
         super.onBackPressed();
     }
 

@@ -23,6 +23,7 @@ public interface EnvelopeListContract {
         void addEnvelopButtonClick(String name, String max);
 
         void adapterLoadData();
+
         void refresh();
     }
 

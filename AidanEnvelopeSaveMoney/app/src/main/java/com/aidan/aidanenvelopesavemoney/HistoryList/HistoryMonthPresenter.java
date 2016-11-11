@@ -4,12 +4,10 @@ import android.content.Context;
 import android.widget.Adapter;
 
 import com.aidan.aidanenvelopesavemoney.DataBase.AccountDAO;
-import com.aidan.aidanenvelopesavemoney.DataBase.LoadDataSingleton;
 import com.aidan.aidanenvelopesavemoney.DataBase.MonthHistoryDAO;
 import com.aidan.aidanenvelopesavemoney.Model.Account;
 import com.aidan.aidanenvelopesavemoney.Model.Envelope;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,9 +16,11 @@ import java.util.List;
 public class HistoryMonthPresenter implements HistoryMonthContract.presenter {
     HistoryMonthContract.view view;
     HistoryMonthAdapter adapter;
-    public HistoryMonthPresenter(HistoryMonthContract.view view){
+
+    public HistoryMonthPresenter(HistoryMonthContract.view view) {
         this.view = view;
     }
+
     @Override
     public void start() {
         view.findView();
@@ -29,7 +29,7 @@ public class HistoryMonthPresenter implements HistoryMonthContract.presenter {
 
     @Override
     public Adapter getAdapter(Context context) {
-        if(adapter == null){
+        if (adapter == null) {
             adapter = new HistoryMonthAdapter(context);
         }
         return adapter;

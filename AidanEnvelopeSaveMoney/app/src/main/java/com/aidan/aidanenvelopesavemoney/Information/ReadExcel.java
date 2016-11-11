@@ -61,7 +61,7 @@ public class ReadExcel {
         }
         LoadDataSingleton.getInstance().getEnvelopeList().clear();
         EnvelopeDAO.getInstance().removeAll();
-        for(Envelope envelope : envelopeList){
+        for (Envelope envelope : envelopeList) {
             LoadDataSingleton.getInstance().saveEnvelope(envelope);
         }
 
@@ -89,12 +89,13 @@ public class ReadExcel {
         }
         LoadDataSingleton.getInstance().getAccountList().clear();
         AccountDAO.getInstance().removeAll();
-        for(Account account : accountList){
+        for (Account account : accountList) {
             LoadDataSingleton.getInstance().saveAccount(account);
         }
     }
+
     public void loadHistoryEnvelopes(Workbook w) {
-        if(w.getSheets().length <= 2)return;
+        if (w.getSheets().length <= 2) return;
         Sheet sheet = w.getSheet(2);
         List<Envelope> envelopeList = new ArrayList<>();
         for (int i = 0; i < sheet.getRows(); i++) {
@@ -114,12 +115,13 @@ public class ReadExcel {
         }
         LoadDataSingleton.getInstance().getHistoryEnvelopeList().clear();
         EnvelopeDAO.getInstance().removeAll(MonthHistoryDAO.envelopeTableName);
-        for(Envelope envelope : envelopeList){
+        for (Envelope envelope : envelopeList) {
             LoadDataSingleton.getInstance().saveEnvelope(envelope, MonthHistoryDAO.envelopeTableName);
         }
     }
+
     public void loadHistoryAccounts(Workbook w) {
-        if(w.getSheets().length <= 2)return;
+        if (w.getSheets().length <= 2) return;
         Sheet sheet = w.getSheet(3);
         List<Account> accountList = new ArrayList<>();
         for (int i = sheet.getRows() - 1; i >= 0; i--) {
@@ -141,12 +143,13 @@ public class ReadExcel {
         }
         LoadDataSingleton.getInstance().getHistoryAccountList().clear();
         AccountDAO.getInstance().removeAll(MonthHistoryDAO.accountTableName);
-        for(Account account : accountList){
+        for (Account account : accountList) {
             LoadDataSingleton.getInstance().saveAccount(account, MonthHistoryDAO.accountTableName);
         }
     }
+
     public void loadHistoryMonth(Workbook w) {
-        if(w.getSheets().length <= 2)return;
+        if (w.getSheets().length <= 2) return;
         Sheet sheet = w.getSheet(4);
         List<MonthHistory> monthHistories = new ArrayList<>();
         for (int i = 0; i < sheet.getRows(); i++) {
@@ -160,12 +163,12 @@ public class ReadExcel {
             MonthHistory monthHistory = new MonthHistory();
             monthHistory.setName(sheet.getCell(0, i).getContents());
             monthHistory.setEnvelopId(sheet.getCell(1, i).getContents());
-            monthHistory.setId(sheet.getCell(2,i).getContents());
+            monthHistory.setId(sheet.getCell(2, i).getContents());
             monthHistories.add(monthHistory);
         }
         LoadDataSingleton.getInstance().getMonthHistoryList().clear();
         MonthHistoryDAO.getInstance().removeAll();
-        for(MonthHistory monthHistory : monthHistories){
+        for (MonthHistory monthHistory : monthHistories) {
             LoadDataSingleton.getInstance().saveMonth(monthHistory);
         }
     }
