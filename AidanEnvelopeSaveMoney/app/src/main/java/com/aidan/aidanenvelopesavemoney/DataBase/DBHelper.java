@@ -19,8 +19,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static SQLiteDatabase getDatabase(Context context) {
         if (database == null || !database.isOpen()) {
-            database = new DBHelper(context, DBName,
-                    null, DBVersion).getWritableDatabase();
+            synchronized (DBHelper.class){
+                if (database == null || !database.isOpen()){
+                    database = new DBHelper(context, DBName,
+                            null, DBVersion).getWritableDatabase();
+                }
+            }
+
         }
 
         return database;
