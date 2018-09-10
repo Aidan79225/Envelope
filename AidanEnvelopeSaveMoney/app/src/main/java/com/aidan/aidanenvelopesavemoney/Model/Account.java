@@ -1,5 +1,6 @@
 package com.aidan.aidanenvelopesavemoney.Model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class Account {
     private Date date;
     private long index = 0;
     private String envelopId = "";
-
+    SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd HH:mm");
     public Account() {
         id = UUID.randomUUID().toString().substring(0, 10);
         date = new Date();
@@ -23,6 +24,9 @@ public class Account {
 
     public String getDate() {
         return date.toLocaleString();
+    }
+    public String getShortDate(){
+        return sdf.format(date);
     }
 
     public long getTime() {

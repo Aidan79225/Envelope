@@ -64,7 +64,7 @@ public class AccountListAdapter extends BaseAdapter {
             viewHolder.nameTextView.setText(account.getEnvelopeName());
             viewHolder.commentTextView.setText(account.getComment());
             viewHolder.costTextView.setText(account.getCost() + "");
-            viewHolder.timeTextView.setText(account.getDate());
+            viewHolder.timeTextView.setText(account.getShortDate());
         }
         return view;
     }

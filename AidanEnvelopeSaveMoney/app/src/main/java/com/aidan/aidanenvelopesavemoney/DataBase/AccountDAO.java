@@ -104,7 +104,7 @@ public class AccountDAO {
         cv.put(DateColumn, item.getTime());
         cv.put(EnvelopIdColumn, item.getEnvelopId());
 
-        String where = KeyID + "=" + item.getIndex();
+        String where = ObjectIdColumn + "=" + item.getId();
         long test = db.update(tableName, cv, where, null);
 
         return test > 0;
